@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>照片展示网站</title>
+        <link rel="stylesheet"  href="header.css">
+        <link rel="stylesheet"  href="mainmessage.css">
+        <link rel="stylesheet"  href="photoshow.css">
+        <style>
+            body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color:white;
+            min-height: 3000px;
+            }
+            main{
+                position:relative;
+                overflow: visible;
+            }
+            footer{
+                background-color: black;
+                color:aliceblue;
+                display:flex;
+                flex-direction:row;
+                justify-content:center;
+                align-items:center;
+                padding-top: 2vh;
+                padding-bottom: 2vh;
+            }
+            .footer-infomation{
+                font-size: 13px;
+                margin:5px;
+            }
+        </style>
+    </head>
+
+    <body>
+        <header>
+            <div class="studio-name">纯粹影像工作室</div>
+            <nav>              
+                    <ul>
+                        <li><a href=#"gallery">摄影作品展示</a></li>
+                        <li class="dropdown">
+                            <a href=#"photographer">合作摄影师</a>
+                            <div class="dropdown-content">
+                                <a href=#"zsl">长雨林</a>
+                                <a href=#"zym">LTDSA</a>
+                                <a href=#"cfy">Flyverse</a>
+                                <a href=#"lqr">Tp</a>
+                                <a href=#"dq">戴小岐</a>
+                            </div>
+                        </li>
+                        <li><a href=#"products">产品展示</a></li>
+                        <li><a href=#"contact">合作联系</a></li>
+                    </ul>
+            </nav>
+        </header>
+
+        <main>
+
+            <div class="main-message">
+
+                <div class="slideshow-container">
+
+                    <div class="myslides fade">
+                        <img src="images/微信图片_20240617163026.jpg" style="width:100%">
+                    </div>
+                    <div class="myslides fade">
+                        <img src="images/微信图片_20240617165015-已增强-SR.jpg" style="width:100%">
+                    </div>
+                    <div class="myslides fade">
+                        <img src="images/微信图片_20240617165121-已增强-SR.jpg" style="width:100%">
+                    </div>
+                    <div class="myslides fade">
+                        <img src="images/微信图片_20240617165126-已增强-SR.jpg" style="width:100%">
+                    </div>
+        
+                    <div class="dots-container">
+                        <span class="dot"  onclick="currentSlide(1)"></span>
+                        <span class="dot"  onclick="currentSlide(2)"></span>
+                        <span class="dot"  onclick="currentSlide(3)"></span>
+                        <span class="dot"  onclick="currentSlide(4)"></span>
+                    </div>
+        
+                    </div>
+        
+                    <div class="show-photo">
+                        <div class="show-location">
+                            <h1>拍摄地点</h1>
+                            <a href=#"more-location">热门拍摄地点集锦 ></a>
+                        </div>
+            
+                        <div class="show-photo-location">
+                            <img class="photo-location" src="images/0689 (14)-已增强-SR.jpg">
+                            <p class="location">长沙</p>
+                            <img class="photo-location" src="images/DSC02247.jpg">
+                            <p class="location">深圳</p>
+                            <img class="photo-location" src="images/4733 (12).jpg">
+                            <p class="location">佛山</p>
+                            <img class="photo-location" src="images/DSC06221-已增强.jpg">
+                            <p class="location">珠海</p>
+                            <img class="photo-location" src="images/0689 (16).jpg">
+                            <p class="location">广州</p>
+                            <img class="photo-location" src="images/000010.JPG">
+                            <p class="location">南京</p>
+                        </div>
+        
+                    </div>
+        
+                    <div class="more-photo">
+                        <p>精选</p>
+                        <div class="more-photo-line"></div>
+                    </div>
+
+            </div>
+
+            <div class="classification-photo-display">
+                <!-- 风光照 -->
+                <div class="photo">
+                    <h2>自然</h2>
+                    <div class="dots-photo-container">
+                        <span class="photo-dot"></span>
+                        <span class="photo-dot"></span>
+                        <span class="photo-dot"></span>
+                        <span class="photo-dot"></span>
+                    </div>
+                    <div class="more-photo-a">
+                        <a href="#more-nature">更多 ></a>
+                    </div>
+            
+                    <div class="show-me-photo">
+                        <div class="display-PhotoAndInformation">
+                            <img class="photo-display" src="images/000003920036-已增强-SR.jpg">
+                            <div class="photo-message">
+                                <p class="photo-message-title">永恒与一日</p>
+                                <div class="machine-information">
+                                    <p class="machine">设备：</p>
+                                    <p class="machine-name">Nikon F2a</p>
+                                </div>
+                            </div>
+                            <div class="border-line"></div>
+                            <div class="photographer">
+                                <img src="images/微信图片_20240723091716.png" class="set-photographer">
+                                <p class="photographer-name">长雨林</p>
+                                <p class="time">2024.7.10</p>
+                            </div>
+                        </div>
+            
+                        <div class="display-PhotoAndInformation">
+                            <img class="photo-display" src="images/微信图片_20240802121525.jpg">
+                            <div class="photo-message">
+                                <p class="photo-message-title">厦门日出</p>
+                                <div class="machine-information">
+                                    <p class="machine">设备：</p>
+                                    <p class="machine-name">Canon EOS 850D</p>
+                                </div>
+                            </div>
+                            <div class="border-line"></div>
+                            <div class="photographer">
+                                <img src="images/微信图片_20240724151549.jpg" class="set-photographer">
+                                <p class="photographer-name">戴小岐</p>
+                                <p class="time">2024.7.15</p>
+                            </div>
+                        </div>
+            
+                        <div class="display-PhotoAndInformation">
+                            <img class="photo-display" src="images/微信图片_20240802132116.jpg">
+                            <div class="photo-message">
+                                <p class="photo-message-title">山的尽头是海</p>
+                                <div class="machine-information">
+                                    <p class="machine">设备：</p>
+                                    <p class="machine-name">DJI Air 2S</p>
+                                </div>
+                            </div>
+                            <div class="border-line"></div>
+                            <div class="photographer">
+                                <img src="images/微信图片_20240802132300.jpg" class="set-photographer">
+                                <p class="photographer-name">LTDSA</p>
+                                <p class="time">2024.7.10</p>
+                            </div>
+                        </div>
+            
+                        <div class="display-PhotoAndInformation">
+                            <img class="photo-display" src="images/微信图片_20240802134101.jpg">
+                            <div class="photo-message">
+                                <p class="photo-message-title">我怀念的</p>
+                                <div class="machine-information">
+                                    <p class="machine">设备：</p>
+                                    <p class="machine-name">Canon EOS 5D Mark IV</p>
+                                </div>
+                            </div>
+                            <div class="border-line"></div>
+                            <div class="photographer">
+                                <img src="images/EH0A2341.jpg" class="set-photographer">
+                                <p class="photographer-name">Flyverse</p>
+                                <p class="time">2021.7.16</p>
+                            </div>
+                        </div>
+                    </div>
+                </div> <!-- 关闭 nature-photo div -->
+            
+                <!-- 人像照 -->
+                <div class="photo">
+                    <h2>人物</h2>
+                    <div class="dots-photo-container">
+                        <span class="photo-dot"></span>
+                        <span class="photo-dot"></span>
+                        <span class="photo-dot"></span>
+                        <span class="photo-dot"></span>
+                    </div>
+                    <div class="more-photo-a">
+                        <a href="#more-portrait">更多 ></a>
+                    </div>
+            
+                    <div class="show-me-photo">
+                        <div class="display-PhotoAndInformation">
+                            <img class="photo-display" src="images/微信图片_20240802205538.jpg">
+                            <div class="photo-message">
+                                <p class="photo-message-title">在海边做梦</p>
+                                <div class="machine-information">
+                                    <p class="machine">设备：</p>
+                                    <p class="machine-name">Nikon EL2</p>
+                                </div>
+                            </div>
+                            <div class="border-line"></div>
+                            <div class="photographer">
+                                <img src="images/微信图片_20240723091716.png" class="set-photographer">
+                                <p class="photographer-name">长雨林</p>
+                                <p class="time">2024.1.22</p>
+                            </div>
+                        </div>
+            
+                        <div class="display-PhotoAndInformation">
+                            <img class="photo-display" src="images/微信图片_20240802143756.jpg">
+                            <div class="photo-message">
+                                <p class="photo-message-title">万花丛中过，片叶不沾身</p>
+                                <div class="machine-information">
+                                    <p class="machine">设备：</p>
+                                    <p class="machine-name">Canon EOS 5D Mark Ⅲ</p>
+                                </div>
+                            </div>
+                            <div class="border-line"></div>
+                            <div class="photographer">
+                                <img src="images/EH0A2341.jpg" class="set-photographer">
+                                <p class="photographer-name">Flyverse</p>
+                                <p class="time">2021.3.17</p>
+                            </div>
+                        </div>
+            
+                        <div class="display-PhotoAndInformation">
+                            <img class="photo-display" src="images/000003920008-已增强-SR.jpg">
+                            <div class="photo-message">
+                                <p class="photo-message-title">因你们而火热</p>
+                                <div class="machine-information">
+                                    <p class="machine">设备：</p>
+                                    <p class="machine-name">Nikon F2a</p>
+                                </div>
+                            </div>
+                            <div class="border-line"></div>
+                            <div class="photographer">
+                                <img src="images/微信图片_20240723091716.png" class="set-photographer">
+                                <p class="photographer-name">长雨林</p>
+                                <p class="time">2024.7.10</p>
+                            </div>
+                        </div>
+            
+                        <div class="display-PhotoAndInformation">
+                            <img class="photo-display" src="images/微信图片_20240802145538.jpg">
+                            <div class="photo-message">
+                                <p class="photo-message-title">太阳在坠落，海岸在发愁</p>
+                                <div class="machine-information">
+                                    <p class="machine">设备：</p>
+                                    <p class="machine-name">Canon EOS 5D Mark IV</p>
+                                </div>
+                            </div>
+                            <div class="border-line"></div>
+                            <div class="photographer">
+                                <img src="images/微信图片_20240802132300.jpg" class="set-photographer">
+                                <p class="photographer-name">LTDSA</p>
+                                <p class="time">2024.3.13</p>
+                            </div>
+                        </div>
+                    </div>
+                </div> <!-- 关闭 portrait-photo div -->
+
+                                <!-- 建筑照 -->
+                                <div class="photo">
+                                    <h2>建筑</h2>
+                                    <div class="dots-photo-container">
+                                        <span class="photo-dot"></span>
+                                        <span class="photo-dot"></span>
+                                        <span class="photo-dot"></span>
+                                        <span class="photo-dot"></span>
+                                    </div>
+                                    <div class="more-photo-a">
+                                        <a href="#more-portrait">更多 ></a>
+                                    </div>
+                            
+                                    <div class="show-me-photo">
+                                        <div class="display-PhotoAndInformation">
+                                            <img class="photo-display" src="images/DSC00947 (2).jpg">
+                                            <div class="photo-message">
+                                                <p class="photo-message-title">中央图书馆</p>
+                                                <div class="machine-information">
+                                                    <p class="machine">设备：</p>
+                                                    <p class="machine-name">Sony Alpha 7 Ⅳ</p>
+                                                </div>
+                                            </div>
+                                            <div class="border-line"></div>
+                                            <div class="photographer">
+                                                <img src="images/微信图片_20240723091716.png" class="set-photographer">
+                                                <p class="photographer-name">长雨林</p>
+                                                <p class="time">2024.5.20</p>
+                                            </div>
+                                        </div>
+                            
+                                        <div class="display-PhotoAndInformation">
+                                            <img class="photo-display" src="images/EH0A8980-已增强-2.jpg">
+                                            <div class="photo-message">
+                                                <p class="photo-message-title">无问西东</p>
+                                                <div class="machine-information">
+                                                    <p class="machine">设备：</p>
+                                                    <p class="machine-name">Canon EOS R6 Mark II</p>
+                                                </div>
+                                            </div>
+                                            <div class="border-line"></div>
+                                            <div class="photographer">
+                                                <img src="images/EH0A2341.jpg" class="set-photographer">
+                                                <p class="photographer-name">Flyverse</p>
+                                                <p class="time">2023.7.20</p>
+                                            </div>
+                                        </div>
+                            
+                                        <div class="display-PhotoAndInformation">
+                                            <img class="photo-display" src="images/微信图片_20240802182434.jpg">
+                                            <div class="photo-message">
+                                                <p class="photo-message-title">无人之境</p>
+                                                <div class="machine-information">
+                                                    <p class="machine">设备：</p>
+                                                    <p class="machine-name">Canon EOS 5D Mark IV</p>
+                                                </div>
+                                            </div>
+                                            <div class="border-line"></div>
+                                            <div class="photographer">
+                                                <img src="images/微信图片_20240802132300.jpg" class="set-photographer">
+                                                <p class="photographer-name">LTDSA</p>
+                                                <p class="time">2024.5.14</p>
+                                            </div>
+                                        </div>
+                            
+                                        <div class="display-PhotoAndInformation">
+                                            <img class="photo-display" src="images/微信图片_20240802183337.jpg">
+                                            <div class="photo-message">
+                                                <p class="photo-message-title">TP的宫殿</p>
+                                                <div class="machine-information">
+                                                    <p class="machine">设备：</p>
+                                                    <p class="machine-name">Nikon Z9</p>
+                                                </div>
+                                            </div>
+                                            <div class="border-line"></div>
+                                            <div class="photographer">
+                                                <img src="images/微信图片_20240802190654.jpg" class="set-photographer">
+                                                <p class="photographer-name">TP</p>
+                                                <p class="time">2024.8.2</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> <!-- 关闭 portrait-photo div -->
+
+                                <!-- 城市照 -->
+                                <div class="photo">
+                                    <h2>城市</h2>
+                                    <div class="dots-photo-container">
+                                        <span class="photo-dot"></span>
+                                        <span class="photo-dot"></span>
+                                        <span class="photo-dot"></span>
+                                        <span class="photo-dot"></span>
+                                    </div>
+                                    <div class="more-photo-a">
+                                        <a href="#more-portrait">更多 ></a>
+                                    </div>
+                            
+                                    <div class="show-me-photo">
+                                        <div class="display-PhotoAndInformation">
+                                            <img class="photo-display" src="images/微信图片_20240802192350.jpg">
+                                            <div class="photo-message">
+                                                <p class="photo-message-title">旧地重游</p>
+                                                <div class="machine-information">
+                                                    <p class="machine">设备：</p>
+                                                    <p class="machine-name">Canon EOS 5D Mark IV</p>
+                                                </div>
+                                            </div>
+                                            <div class="border-line"></div>
+                                            <div class="photographer">
+                                                <img src="images/微信图片_20240802132300.jpg" class="set-photographer">
+                                                <p class="photographer-name">LTDSA</p>
+                                                <p class="time">2024.3.10</p>
+                                            </div>
+                                        </div>
+                            
+                                        <div class="display-PhotoAndInformation">
+                                            <img class="photo-display" src="images/LT-NORITSU43981-2.jpg">
+                                            <div class="photo-message">
+                                                <p class="photo-message-title">走出人群</p>
+                                                <div class="machine-information">
+                                                    <p class="machine">设备：</p>
+                                                    <p class="machine-name">Sony Alpha 7 Ⅳ</p>
+                                                </div>
+                                            </div>
+                                            <div class="border-line"></div>
+                                            <div class="photographer">
+                                                <img src="images/微信图片_20240723091716.png" class="set-photographer">
+                                                <p class="photographer-name">长雨林</p>
+                                                <p class="time">2023.11.4</p>
+                                            </div>
+                                        </div>
+                            
+                                        <div class="display-PhotoAndInformation">
+                                            <img class="photo-display" src="images/微信图片_20240802194442.jpg">
+                                            <div class="photo-message">
+                                                <p class="photo-message-title">破败之中亦有生机</p>
+                                                <div class="machine-information">
+                                                    <p class="machine">设备：</p>
+                                                    <p class="machine-name">Canon EOS R6 Mark II</p>
+                                                </div>
+                                            </div>
+                                            <div class="border-line"></div>
+                                            <div class="photographer">
+                                                <img src="images/EH0A2341.jpg" class="set-photographer">
+                                                <p class="photographer-name">Flyverse</p>
+                                                <p class="time">2024.7.21</p>
+                                            </div>
+                                        </div>
+                            
+                                        <div class="display-PhotoAndInformation">
+                                            <img class="photo-display" src="images/微信图片_20240802202003.jpg">
+                                            <div class="photo-message">
+                                                <p class="photo-message-title">同华路11号</p>
+                                                <div class="machine-information">
+                                                    <p class="machine">设备：</p>
+                                                    <p class="machine-name">Nikon EL2</p>
+                                                </div>
+                                            </div>
+                                            <div class="border-line"></div>
+                                            <div class="photographer">
+                                                <img src="images/微信图片_20240723091716.png" class="set-photographer">
+                                                <p class="photographer-name">长雨林</p>
+                                                <p class="time">2023.9.4</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> <!-- 关闭 portrait-photo div -->
+            </div> <!-- 关闭 classification-photo-display div -->
+                  
+
+        </main>
+
+        <footer>
+            <p class="footer-infomation">Copyright © 2024 纯粹影像工作室 长雨林 版权所有</p>
+        </footer>
+
+
+        <script>
+   let slideIndex = 0;
+        let timeoutId;
+
+        showSlides();
+
+        function showSlides() {
+            let slides = document.getElementsByClassName("myslides");
+            let dots = document.getElementsByClassName("dot");
+
+            for (let i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";
+            }
+
+            slideIndex++;
+            if (slideIndex > slides.length) { slideIndex = 1 }
+
+            for (let i = 0; i < dots.length; i++) {
+                dots[i].className = dots[i].className.replace(" active", "");
+            }
+
+            slides[slideIndex - 1].style.display = "block";
+            dots[slideIndex - 1].className += " active";
+            timeoutId = setTimeout(showSlides, 2000); // 每2秒切换一次幻灯片
+        }
+
+        function currentSlide(n) {
+            clearTimeout(timeoutId); // 清除当前定时器
+            slideIndex = n; // 将幻灯片索引设置为n
+            showCurrentSlide(); // 调用showCurrentSlide函数以显示对应的幻灯片
+        }
+
+        function showCurrentSlide() {
+            let slides = document.getElementsByClassName("myslides");
+            let dots = document.getElementsByClassName("dot");
+
+            for (let i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";
+            }
+
+            for (let i = 0; i < dots.length; i++) {
+                dots[i].className = dots[i].className.replace(" active", "");
+            }
+
+            slides[slideIndex - 1].style.display = "block";
+            dots[slideIndex - 1].className += " active";
+            timeoutId = setTimeout(showSlides, 2000); // 重新启动幻灯片自动播放
+        }
+        </script>
+    </body>
+</html>

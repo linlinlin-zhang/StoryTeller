@@ -1,0 +1,138 @@
+.photo-dot{
+    height:15px;
+    width:15px;
+    margin:0 2px;
+    background-color:gainsboro;
+    border-radius: 50%;
+    display:inline-block;
+    transition:background-color 0.7s ease;
+}
+.photo{
+    display:grid;
+    grid-template-columns: 50px 1fr 15% 5%;
+    grid-template-rows: 10vh 1fr;
+    grid-column-gap:10px;
+    grid-auto-flow:column;
+    width:80%;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+.photo h2{
+    grid-column:1/2;
+    align-self: center;
+}
+.dots-photo-container{
+    text-align: center;
+    bottom:8px;
+    width:100%;
+    grid-column:3/4;
+    justify-self:end;
+    align-self: center;
+}
+.more-photo-a{
+    grid-column:4/5;
+    justify-self:center;
+    align-self: center;
+}
+.classification-photo-display{
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items: center;
+    background-color:#F5F5F5;
+    height: auto;
+    padding-bottom: 3vh;
+    margin-top:0px;
+}
+.more-photo-a a{
+    justify-self:end;
+    align-self:center;
+    text-decoration: none;
+    color:cornflowerblue;
+}
+.more-photo-a a:hover{
+    text-decoration: underline;
+    color:deepskyblue;
+}
+.show-me-photo{
+    grid-column:1/5;
+    display:grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-column-gap:20px;
+    height: auto;
+}
+.photo-display{
+    border-radius:2% 2% 0 0;
+}
+.photo-message{
+    width:90%;
+    margin:auto;
+    margin-top: 0%;
+    display:flex;
+    text-align: left;
+    flex-direction: column;
+    justify-content: flex-start;
+    font-size: 14px;
+}
+.photo-message p{
+    margin:5px;
+}
+.photographer{
+    display:grid;
+    width: 90%;
+    grid-template-columns: 10% 30% 1fr 20%;
+    grid-column-gap:2%;
+    justify-items:baseline;
+    align-items: center;
+    margin:auto;
+    margin-top:0;
+    font-size: 13px;
+    font-weight: 500;
+}
+.set-photographer{
+    border-radius:50%;
+}
+.display-PhotoAndInformation{
+    border: 1px solid gainsboro;
+    border-radius: 2%;
+    display:grid;
+    grid-template-rows: 1fr auto 0fr auto;
+    grid-row-gap:5px;
+    justify-content: center;
+    background-color: white;
+    height: auto;
+}
+.photo-message-title{
+    font-weight: 600;
+}
+.border-line{
+    justify-self: center;
+    border: 0.5px solid gainsboro;
+    height: 0;
+    width:90%;
+}
+.machine{
+    color:dimgray;
+}
+.machine-name{
+    color:cornflowerblue;
+}
+.machine-information{
+    display:flex;
+    flex-direction: row;
+    justify-items: start;
+    align-items: baseline;
+}
+.time{
+    grid-column: 4/5;
+    justify-self: end;
+    color:dimgray;
+
+}
+.photographer-name{
+    justify-self: center;
+    position:relative;
+    right:15%;
+    margin-top: 10px;
+    margin-bottom:10px;
+}

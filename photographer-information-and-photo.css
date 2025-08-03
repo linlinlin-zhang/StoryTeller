@@ -1,0 +1,27 @@
+.photographer-information-and-photo{
+    position: relative;
+}
+.img-show-container{
+    width:100%;
+    height:40vh;
+    z-index: 1;
+}
+.img-show{
+    width:100%;
+    height:100%;
+    object-fit: cover;
+    object-position: top;
+}
+.photographer-information{
+    bottom:20px;
+    z-index: 2;
+}
+.photographer-profile-picture{
+    width:8%;
+    border-radius: 50%;
+}
+.profile-picture{
+    width: 100%;
+    height:100%;
+    border-radius: 50%;
+}

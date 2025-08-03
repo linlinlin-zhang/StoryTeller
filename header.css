@@ -1,0 +1,66 @@
+
+header{
+    background-color:black;
+    color:aliceblue;
+    padding: 10px 0;
+    text-align: left;
+    font-family: FangSong;
+    font-weight: 600;
+    display:grid;
+    grid-template-columns: 15% 1fr 15%;
+    position:relative
+}
+.studio-name{
+    position:relative;
+    font-size:20px;
+    left: 5%;
+    grid-column:1;
+    margin:2%
+}
+nav{
+    grid-column: 2;
+    justify-self:center;
+    align-self:center;
+}
+nav ul {
+list-style-type: none;
+margin: 0;
+padding: 0;
+text-align: left;
+}
+nav ul li {
+display: inline;
+margin: 0 15px;
+}
+nav ul li a {
+color: #fff;
+text-decoration: none;
+}
+.dropdown{
+    display:inline-block;
+    position:relative;
+}
+.dropdown-content{
+    display:none;
+    background-color: #f4f4f4;
+    max-width: fit-content;
+    max-height: fit-content;
+    position:absolute;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    top:20px;
+    left:0;
+}
+.dropdown-content a{
+    color:black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+.dropdown-content a:hover{
+    background-color: aliceblue;
+}
+.dropdown:hover .dropdown-content{
+    display:block;
+}
+

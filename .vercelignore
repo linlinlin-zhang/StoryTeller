@@ -1,0 +1,7 @@
+# Ignore images folder to reduce deployment size
+images/
+
+# Ignore other large files
+*.log
+node_modules/
+.DS
