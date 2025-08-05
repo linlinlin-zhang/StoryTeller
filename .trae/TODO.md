@@ -1,8 +1,7 @@
 # TODO:
 
-- [x] 1: 修复App.tsx中重复的/gallery路由配置 (priority: High)
-- [x] 2: 修改Gallery.tsx实现混合瀑布流布局 (priority: High)
-- [x] 3: 调整Following.tsx中竖图的显示尺寸 (priority: High)
-- [x] 4: 修复Gallery.tsx图片比例问题：移除固定高度限制，使用object-contain保持原始比例 (priority: High)
-- [x] 5: 实现Gallery.tsx真正的瀑布流布局，让不同高度图片自然排列 (priority: High)
-- [x] 6: 修复Following.tsx图片显示：改为object-contain，竖图限制80%视窗高度，横图保持原始比例 (priority: High)
+- [x] 1: 分析马格南图片社的设计特点：简洁黑白色调、强调作品、干净布局 (priority: High)
+- [x] 2: 重新设计PhotographerList.tsx：采用简洁网格布局，黑白色调，突出摄影师头像和作品 (priority: High)
+- [x] 3: 重新设计Photographer.tsx：大幅头像/作品头部，简洁信息展示，瀑布流作品布局 (priority: High)
+- [x] 4: 优化整体视觉风格：专业简洁经典，以内容为核心，优雅交互体验 (priority: Medium)
+- [x] 5: 测试新设计的响应式效果和用户体验 (priority: Medium)

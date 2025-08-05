@@ -3,126 +3,88 @@ import { useState } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { photographers } from "@/data/mockData";
-import { MapPin, Camera, Users, Calendar } from "lucide-react";
+import { MapPin, Camera } from "lucide-react";
 
 export default function PhotographerList() {
   const [hoveredCard, setHoveredCard] = useState<string | null>(null);
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-white">
       <Header />
       
-      <main className="container mx-auto px-4 py-8">
-        {/* 页面标题 */}
-        <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">摄影师</h1>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            发现才华横溢的摄影师，欣赏他们独特的视角和精湛的技艺
-          </p>
-          <div className="w-24 h-1 bg-blue-500 mx-auto mt-6"></div>
+      <main className="container mx-auto px-8 py-16">
+        {/* 页面标题 - 马格南风格 */}
+        <div className="mb-20">
+          <h1 className="text-5xl font-light text-black mb-8 tracking-wide">
+            PHOTOGRAPHERS
+          </h1>
+          <div className="w-full h-px bg-black"></div>
         </div>
 
-        {/* 摄影师网格 */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+        {/* 摄影师网格 - 马格南风格 */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-12">
           {photographers.map((photographer) => (
             <Link
               key={photographer.id}
               to={`/photographer/${photographer.id}`}
-              className="block"
+              className="group block"
               onMouseEnter={() => setHoveredCard(photographer.id)}
               onMouseLeave={() => setHoveredCard(null)}
             >
-              <div className={`bg-white rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-2xl ${
-                hoveredCard === photographer.id ? 'transform -translate-y-2' : ''
-              }`}>
-                {/* 封面图片 */}
-                <div className="relative h-64 overflow-hidden">
+              <div className="space-y-6">
+                {/* 代表作品 */}
+                <div className="relative overflow-hidden bg-gray-100">
                   <img
                     src={photographer.coverImage}
                     alt={`${photographer.name}的作品`}
-                    className="w-full h-full object-cover transition-transform duration-300 hover:scale-110"
+                    className="w-full aspect-[4/5] object-cover filter grayscale group-hover:grayscale-0 transition-all duration-500"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
-                  
-                  {/* 头像 */}
-                  <div className="absolute bottom-4 left-4">
-                    <img
-                      src={photographer.avatar}
-                      alt={photographer.name}
-                      className="w-16 h-16 rounded-full border-4 border-white shadow-lg object-cover"
-                    />
-                  </div>
+                  <div className={`absolute inset-0 bg-black transition-opacity duration-300 ${
+                    hoveredCard === photographer.id ? 'opacity-10' : 'opacity-0'
+                  }`}></div>
+                </div>
+
+                {/* 摄影师头像 */}
+                <div className="flex justify-center">
+                  <img
+                    src={photographer.avatar}
+                    alt={photographer.name}
+                    className="w-20 h-20 object-cover filter grayscale group-hover:grayscale-0 transition-all duration-500"
+                  />
                 </div>
 
                 {/* 摄影师信息 */}
-                <div className="p-6">
-                  <div className="mb-4">
-                    <h3 className="text-xl font-bold text-gray-900 mb-2">
-                      {photographer.name}
-                    </h3>
-                    <p className="text-gray-600 text-sm leading-relaxed">
-                      {photographer.bio}
-                    </p>
+                <div className="text-center space-y-3">
+                  <h3 className="text-xl font-light text-black tracking-wide uppercase">
+                    {photographer.name}
+                  </h3>
+                  
+                  <div className="flex items-center justify-center text-gray-600">
+                    <MapPin size={14} className="mr-1" />
+                    <span className="text-sm font-light">{photographer.location}</span>
                   </div>
 
-                  {/* 专长标签 */}
-                  <div className="mb-4">
-                    <div className="flex flex-wrap gap-2">
-                      {photographer.specialties.slice(0, 3).map((specialty, index) => (
-                        <span
-                          key={index}
-                          className="px-3 py-1 bg-blue-100 text-blue-700 text-xs rounded-full font-medium"
-                        >
-                          {specialty}
-                        </span>
-                      ))}
-                    </div>
+                  <div className="flex items-center justify-center text-gray-600">
+                    <Camera size={14} className="mr-1" />
+                    <span className="text-sm font-light">{photographer.works} works</span>
                   </div>
 
-                  {/* 统计信息 */}
-                  <div className="grid grid-cols-2 gap-4 mb-4">
-                    <div className="flex items-center text-gray-600">
-                      <Camera size={16} className="mr-2 text-blue-500" />
-                      <span className="text-sm">
-                        <span className="font-semibold text-gray-900">{photographer.works}</span> 作品
-                      </span>
-                    </div>
-                    <div className="flex items-center text-gray-600">
-                      <Users size={16} className="mr-2 text-blue-500" />
-                      <span className="text-sm">
-                        <span className="font-semibold text-gray-900">{photographer.followers}</span> 粉丝
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* 地点和加入时间 */}
-                  <div className="space-y-2">
-                    <div className="flex items-center text-gray-600">
-                      <MapPin size={16} className="mr-2 text-blue-500" />
-                      <span className="text-sm">{photographer.location}</span>
-                    </div>
-                    <div className="flex items-center text-gray-600">
-                      <Calendar size={16} className="mr-2 text-blue-500" />
-                      <span className="text-sm">加入于 {photographer.joinDate}</span>
-                    </div>
+                  {/* 专长 - 简化显示 */}
+                  <div className="text-xs text-gray-500 font-light tracking-wider uppercase">
+                    {photographer.specialties.slice(0, 2).join(' • ')}
                   </div>
                 </div>
-
-                {/* 悬停效果 */}
-                <div className={`absolute inset-0 bg-blue-500/10 transition-opacity duration-300 ${
-                  hoveredCard === photographer.id ? 'opacity-100' : 'opacity-0'
-                }`}></div>
               </div>
             </Link>
           ))}
         </div>
 
-        {/* 底部说明 */}
-        <div className="text-center mt-16">
-          <p className="text-gray-500">
-            想要成为我们的摄影师？
-            <Link to="/contact" className="text-blue-600 hover:text-blue-800 ml-1 font-medium">
-              联系我们
+        {/* 底部说明 - 马格南风格 */}
+        <div className="text-center mt-24 pt-12 border-t border-gray-200">
+          <p className="text-gray-600 font-light tracking-wide">
+            BECOME A PHOTOGRAPHER
+            <Link to="/contact" className="text-black hover:text-gray-600 ml-2 font-normal border-b border-black hover:border-gray-600 transition-colors">
+              CONTACT US
             </Link>
           </p>
         </div>
