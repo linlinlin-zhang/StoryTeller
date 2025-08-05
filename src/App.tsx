@@ -4,6 +4,7 @@ import Home from "@/pages/Home";
 import Gallery from "@/pages/Gallery";
 import PhotoDetail from "@/pages/PhotoDetail";
 import Photographer from "@/pages/Photographer";
+import PhotographerList from "@/pages/PhotographerList";
 import Login from "@/pages/Login";
 import Register from "@/pages/Register";
 import Admin from "@/pages/Admin";
@@ -27,8 +28,8 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/gallery" element={<Gallery />} />
-          <Route path="/gallery" element={<Gallery />} />
           <Route path="/photo/:id" element={<PhotoDetail />} />
+          <Route path="/photographers" element={<PhotographerList />} />
           <Route path="/photographer/:id" element={<Photographer />} />
           
           <Route path="/following" element={<Following />} />

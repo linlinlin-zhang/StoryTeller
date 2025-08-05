@@ -13,8 +13,8 @@ export default function Header() {
     if (path === '/gallery') {
       return location.pathname === '/gallery' || location.pathname === '/';
     }
-    if (path === '/photographer') {
-      return location.pathname.startsWith('/photographer');
+    if (path === '/photographers') {
+      return location.pathname === '/photographers' || location.pathname.startsWith('/photographer/');
     }
     return location.pathname === path;
   };
@@ -54,44 +54,13 @@ export default function Header() {
                 探索
               </Link>
             </li>
-            <li className="relative group">
-              <span className={`cursor-pointer hover:text-blue-400 transition-colors font-medium ${
-                isActive('/photographer') ? 'text-blue-400 font-bold' : 'text-white'
-              }`}>
+            <li>
+              <Link 
+                to="/photographers" 
+                className={getNavLinkClass('/photographers')}
+              >
                 摄影师
-              </span>
-              <div className="absolute top-5 left-0 hidden group-hover:block bg-gray-100 min-w-max shadow-lg z-10">
-                <Link 
-                  to="/photographer/zsl" 
-                  className="block px-4 py-3 text-black no-underline hover:bg-blue-50 transition-colors"
-                >
-                  长雨林
-                </Link>
-                <Link 
-                  to="/photographer/zym" 
-                  className="block px-4 py-3 text-black no-underline hover:bg-blue-50 transition-colors"
-                >
-                  LTDSA
-                </Link>
-                <Link 
-                  to="/photographer/cfy" 
-                  className="block px-4 py-3 text-black no-underline hover:bg-blue-50 transition-colors"
-                >
-                  Flyverse
-                </Link>
-                <Link 
-                  to="/photographer/lqr" 
-                  className="block px-4 py-3 text-black no-underline hover:bg-blue-50 transition-colors"
-                >
-                  Tp
-                </Link>
-                <Link 
-                  to="/photographer/dq" 
-                  className="block px-4 py-3 text-black no-underline hover:bg-blue-50 transition-colors"
-                >
-                  戴小岐
-                </Link>
-              </div>
+              </Link>
             </li>
             <li>
               <Link 

@@ -162,47 +162,25 @@ export default function Gallery() {
     return filtered;
   }, [allPhotos, selectedCategory, selectedPhotographer, searchTerm, sortBy]);
 
-  // 组织照片
+  // 混合瀑布流布局
   const organizedPhotos = useMemo(() => {
-    const landscape = filteredPhotos.filter(photo => {
-      const orientation = getImageOrientation(photo.image);
-      return orientation === 'landscape';
-    });
+    if (!filteredPhotos.length) return [];
     
-    const portrait = filteredPhotos.filter(photo => {
-      const orientation = getImageOrientation(photo.image);
-      return orientation === 'portrait';
-    });
+    // 为每张照片添加方向信息
+    const photosWithOrientation = filteredPhotos.map(photo => ({
+      ...photo,
+      orientation: getImageOrientation(photo.image)
+    }));
     
-    const square = filteredPhotos.filter(photo => {
-      const orientation = getImageOrientation(photo.image);
-      return orientation === 'square';
-    });
-    
+    // 创建混合瀑布流行
     const rows = [];
+    const PHOTOS_PER_ROW = 4;
     
-    const LANDSCAPE_PER_ROW = 3;
-    const PORTRAIT_PER_ROW = 4;
-    const SQUARE_PER_ROW = 4;
-    
-    for (let i = 0; i < landscape.length; i += LANDSCAPE_PER_ROW) {
+    for (let i = 0; i < photosWithOrientation.length; i += PHOTOS_PER_ROW) {
+      const rowPhotos = photosWithOrientation.slice(i, i + PHOTOS_PER_ROW);
       rows.push({
-        type: 'landscape' as const,
-        photos: landscape.slice(i, i + LANDSCAPE_PER_ROW)
-      });
-    }
-    
-    for (let i = 0; i < portrait.length; i += PORTRAIT_PER_ROW) {
-      rows.push({
-        type: 'portrait' as const,
-        photos: portrait.slice(i, i + PORTRAIT_PER_ROW)
-      });
-    }
-    
-    for (let i = 0; i < square.length; i += SQUARE_PER_ROW) {
-      rows.push({
-        type: 'square' as const,
-        photos: square.slice(i, i + SQUARE_PER_ROW)
+        type: 'mixed' as const,
+        photos: rowPhotos
       });
     }
     
@@ -323,77 +301,54 @@ export default function Gallery() {
 
             {organizedPhotos.length > 0 ? (
               <>
-                <div className="space-y-8">
-                  {organizedPhotos.map((row, rowIndex) => {
-                    const getGridClass = () => {
-                      if (row.type === 'landscape') {
-                        return 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3';
-                      } else if (row.type === 'portrait') {
-                        return 'grid-cols-2 md:grid-cols-3 lg:grid-cols-4';
-                      } else {
-                        return 'grid-cols-2 md:grid-cols-3 lg:grid-cols-4';
-                      }
-                    };
-                    
-                    const getImageHeightClass = (type: string) => {
-                      if (type === 'landscape') {
-                        return 'h-48 md:h-56 lg:h-64';
-                      } else if (type === 'portrait') {
-                        return 'h-56 md:h-64 lg:h-72';
-                      } else {
-                        return 'h-48 md:h-56 lg:h-64';
-                      }
-                    };
-                    
-                    return (
-                      <div key={rowIndex} className={`grid gap-4 ${getGridClass()}`}>
-                        {row.photos.map(photo => {
-                          const orientation = getImageOrientation(photo.image);
-                          
-                          return (
-                            <div key={photo.id} className="group relative overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer"
-                                  onClick={() => navigate(`/photo/${photo.id}`)}>
-                              
-                              <img 
-                                src={photo.image} 
-                                alt={photo.title}
-                                className={`w-full object-cover transition-transform duration-300 group-hover:scale-105 ${getImageHeightClass(row.type)}`}
-                                loading="lazy"
-                              />
-                              <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-60 transition-all duration-300 flex items-end">
-                                <div className="p-4 text-white transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
-                                  <h3 className="text-lg font-semibold mb-2">{photo.title}</h3>
-                                  <div className="flex items-center space-x-3">
-                                    <img 
-                                      src={photo.photographer.avatar} 
-                                      alt={photo.photographer.name}
-                                      className="w-8 h-8 rounded-full object-cover"
-                                    />
-                                    <span className="text-sm">{photo.photographer.name}</span>
-                                  </div>
-                                  <div className="flex items-center space-x-4 mt-2 text-sm text-gray-300">
-                                    <span className="flex items-center space-x-1">
-                                      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                                        <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"/>
-                                        <path fillRule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clipRule="evenodd"/>
-                                      </svg>
-                                      <span>{photo.views}</span>
-                                    </span>
-                                    <span className="flex items-center space-x-1">
-                                      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fillRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clipRule="evenodd"/>
-                                      </svg>
-                                      <span>{photo.likes}</span>
-                                    </span>
-                                  </div>
+                <div className="space-y-6">
+                  {/* 瀑布流布局 - 保持图片原始比例 */}
+                  <div className="columns-1 md:columns-2 lg:columns-3 xl:columns-4 gap-4 space-y-4">
+                    {filteredPhotos.map(photo => {
+                      return (
+                        <div key={photo.id} className="break-inside-avoid mb-4">
+                          <div className="group relative overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer"
+                                onClick={() => navigate(`/photo/${photo.id}`)}>
+                            
+                            <img 
+                              src={photo.image} 
+                              alt={photo.title}
+                              className="w-full h-auto object-contain transition-transform duration-300 group-hover:scale-105"
+                              loading="lazy"
+                            />
+                            <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-60 transition-all duration-300 flex items-end">
+                              <div className="p-4 text-white transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+                                <h3 className="text-lg font-semibold mb-2">{photo.title}</h3>
+                                <div className="flex items-center space-x-3">
+                                  <img 
+                                    src={photo.photographer.avatar} 
+                                    alt={photo.photographer.name}
+                                    className="w-8 h-8 rounded-full object-cover"
+                                  />
+                                  <span className="text-sm">{photo.photographer.name}</span>
+                                </div>
+                                <div className="flex items-center space-x-4 mt-2 text-sm text-gray-300">
+                                  <span className="flex items-center space-x-1">
+                                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                      <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"/>
+                                      <path fillRule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clipRule="evenodd"/>
+                                    </svg>
+                                    <span>{photo.views}</span>
+                                  </span>
+                                  <span className="flex items-center space-x-1">
+                                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                      <path fillRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clipRule="evenodd"/>
+                                    </svg>
+                                    <span>{photo.likes}</span>
+                                  </span>
                                 </div>
                               </div>
                             </div>
-                          );
-                        })}
-                      </div>
-                    );
-                  })}
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
                 </div>
                 
                 {isLoading && (

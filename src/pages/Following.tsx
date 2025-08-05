@@ -465,7 +465,7 @@ export default function Following() {
                       <img
                         src={photo.image}
                         alt={photo.title}
-                        className="w-full h-auto object-cover rounded-lg transition-transform duration-300 group-hover:scale-[1.02]"
+                        className="w-full h-auto max-h-[80vh] object-contain rounded-lg transition-transform duration-300 group-hover:scale-[1.02]"
                       />
                       {hoveredPhoto === photo.id && (
                         <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center rounded-lg transition-opacity duration-300">
@@ -572,7 +572,7 @@ export default function Following() {
                       <img
                         src={photographer.latestWork[0].image}
                         alt={photographer.latestWork[0].title}
-                        className="w-full h-auto object-cover rounded-lg transition-transform duration-300 group-hover:scale-[1.02]"
+                        className="w-full h-auto max-h-[80vh] object-contain rounded-lg transition-transform duration-300 group-hover:scale-[1.02]"
                         onClick={() => window.open(`/photo/${photographer.latestWork[0].id}`, '_blank')}
                       />
                     </div>
