@@ -39,7 +39,7 @@ const validateUserRegistration = [
     .matches(/^[a-zA-Z0-9_]+$/)
     .withMessage('Username can only contain letters, numbers and underscores')
     .custom(async (value) => {
-      const { User } = require('../models');
+      const { User } = require('../models/index.cjs');
       const existingUser = await User.findOne({ username: value });
       if (existingUser) {
         throw new Error('Username already exists');
@@ -53,7 +53,7 @@ const validateUserRegistration = [
     .withMessage('Please provide a valid email address')
     .normalizeEmail()
     .custom(async (value) => {
-      const { User } = require('../models');
+      const { User } = require('../models/index.cjs');
       const existingUser = await User.findOne({ email: value });
       if (existingUser) {
         throw new Error('Email already registered');

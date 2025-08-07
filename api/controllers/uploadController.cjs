@@ -1,5 +1,5 @@
 const { ossService } = require('../config/oss.cjs');
-const { User } = require('../models');
+const { User } = require('../models/index.cjs');
 
 /**
  * 上传照片

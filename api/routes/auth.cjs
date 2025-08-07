@@ -11,11 +11,11 @@ const {
   getCurrentUser,
   changePassword,
   verifyToken
-} = require('../controllers/authController');
+} = require('../controllers/authController.cjs');
 const {
   authenticateToken,
   refreshTokenIfNeeded
-} = require('../middleware/auth');
+} = require('../middleware/auth.cjs');
 const {
   validateUserRegistration,
   validateUserLogin,

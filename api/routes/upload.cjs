@@ -6,10 +6,10 @@ const {
   getSignedUrl,
   batchUploadPhotos,
   getUploadConfig
-} = require('../controllers/uploadController');
+} = require('../controllers/uploadController.cjs');
 const {
   authenticateToken
-} = require('../middleware/auth');
+} = require('../middleware/auth.cjs');
 const {
   uploadSingle,
   uploadMultiple,

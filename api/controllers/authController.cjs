@@ -1,7 +1,7 @@
-const { User } = require('../models');
+const { User } = require('../models/index.cjs');
 const { JWTUtils } = require('../utils/jwt.cjs');
-const { cacheService } = require('../config/redis');
-const { revokeToken } = require('../middleware/auth');
+const { cacheService } = require('../config/redis.cjs');
+const { revokeToken } = require('../middleware/auth.cjs');
 
 /**
  * 用户注册

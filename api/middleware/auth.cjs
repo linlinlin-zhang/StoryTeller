@@ -1,6 +1,6 @@
 const { JWTUtils } = require('../utils/jwt.cjs');
-const { User } = require('../models');
-const { cacheService } = require('../config/redis');
+const { User } = require('../models/index.cjs');
+const { cacheService } = require('../config/redis.cjs');
 
 /**
  * JWT认证中间件
