@@ -8,7 +8,18 @@ export default defineConfig({
   root: '.',
   build: {
     outDir: 'dist',
-    emptyOutDir: true
+    emptyOutDir: true,
+    chunkSizeWarningLimit: 1000,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ['react', 'react-dom'],
+          router: ['react-router-dom'],
+          ui: ['lucide-react', 'sonner'],
+          utils: ['zustand', 'clsx']
+        }
+      }
+    }
   },
   plugins: [
     react({

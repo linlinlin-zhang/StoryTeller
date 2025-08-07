@@ -44,7 +44,14 @@ apt update && apt upgrade -y
 
 # 2. 安装必要软件
 print_info "安装必要软件..."
-apt install -y curl wget git nginx mongodb-tools
+apt install -y curl wget git nginx
+
+# 安装MongoDB工具
+print_info "安装MongoDB工具..."
+wget -qO - https://www.mongodb.org/static/pgp/server-6.0.asc | apt-key add -
+echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/6.0 multiverse" | tee /etc/apt/sources.list.d/mongodb-org-6.0.list
+apt update
+apt install -y mongodb-mongosh mongodb-database-tools
 
 # 3. 安装Node.js
 print_info "安装Node.js ${NODE_VERSION}..."
