@@ -1,18 +1,18 @@
 // 统一导出所有模型
-const User = require('./User.js');
-const Photo = require('./Photo.js');
-const Comment = require('./Comment.js');
-const Like = require('./Like.js');
-const Follow = require('./Follow.js');
+const User = require('./User.cjs');
+const Photo = require('./Photo.cjs');
+const Comment = require('./Comment.cjs');
+const Like = require('./Like.cjs');
+const Follow = require('./Follow.cjs');
 
 // 模型初始化函数
 const initializeModels = async () => {
   // 导入所有模型以确保它们被注册到mongoose
-  require('./User.js');
-  require('./Photo.js');
-  require('./Comment.js');
-  require('./Like.js');
-  require('./Follow.js');
+  require('./User.cjs');
+  require('./Photo.cjs');
+  require('./Comment.cjs');
+  require('./Like.cjs');
+  require('./Follow.cjs');
   
   console.log('All models initialized successfully');
 };

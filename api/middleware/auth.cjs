@@ -1,4 +1,4 @@
-const { JWTUtils } = require('../utils/jwt');
+const { JWTUtils } = require('../utils/jwt.cjs');
 const { User } = require('../models');
 const { cacheService } = require('../config/redis');
 

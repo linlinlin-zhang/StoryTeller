@@ -1,4 +1,4 @@
-const { ossService } = require('../config/oss');
+const { ossService } = require('../config/oss.cjs');
 const { User } = require('../models');
 
 /**

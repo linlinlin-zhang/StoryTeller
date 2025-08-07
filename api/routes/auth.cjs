@@ -21,7 +21,7 @@ const {
   validateUserLogin,
   validatePasswordChange,
   createValidationMiddleware
-} = require('../middleware/validation');
+} = require('../middleware/validation.cjs');
 
 const router = Router();
 

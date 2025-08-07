@@ -1,10 +1,9 @@
 # TODO:
 
-- [x] 56: 将ecosystem.config.js从CommonJS格式转换为ESM格式 (priority: High)
-- [x] 57: 创建api/index.js作为生产环境入口文件 (priority: High)
-- [x] 59: 将api/index.js从ESM格式转换为CommonJS格式 (priority: High)
-- [x] 60: 检查api/app.js文件是否存在，如不存在则创建CommonJS版本 (priority: High)
-- [x] 58: 优化Vite构建配置以减少bundle大小警告 (priority: Medium)
-- [ ] 61: 创建其他必要的CommonJS文件（controllers, middleware, models等） (**IN PROGRESS**) (priority: High)
-- [ ] 53: 测试JWT功能和配置 (priority: High)
-- [ ] 54: 验证后端与前端、数据库、OSS的正常交互 (priority: Medium)
+- [x] 62: 创建缺失的authController.cjs文件 (priority: High)
+- [x] 65: 系统性检查所有.cjs文件中的导入路径问题 (priority: High)
+- [x] 63: 创建缺失的jwt.cjs文件 (priority: High)
+- [x] 64: 检查并创建oss.cjs文件（如果需要） (priority: High)
+- [x] 66: 修复所有发现的导入路径错误 (priority: High)
+- [x] 67: 创建缺失的模型文件的.cjs版本（User、Photo、Comment、Like、Follow） (priority: High)
+- [x] 68: 创建validation.cjs文件并修复相关引用 (priority: High)

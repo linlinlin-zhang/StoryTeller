@@ -110,7 +110,7 @@ fi
 
 # 11. 启动应用
 print_info "启动应用..."
-pm2 start ecosystem.config.js --env production
+pm2 start ecosystem.config.cjs --env production
 pm2 save
 pm2 startup
 
