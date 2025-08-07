@@ -10,7 +10,17 @@
     "preview": "vite preview",
     "check": "tsc -b --noEmit",
     "client:dev": "vite",
-    "server:dev": "nodemon"
+    "server:dev": "nodemon",
+    "migrate-data": "tsx api/scripts/migrateData.ts",
+    "create-admin": "tsx api/scripts/createAdmin.ts",
+    "test-connection": "tsx api/scripts/diagnoseConnection.ts",
+    "test-oss": "tsx api/scripts/testOSS.ts",
+    "init-cloud-db": "tsx api/scripts/initCloudDB.ts",
+    "start": "node api/index.js",
+    "build:server": "tsc -p api/tsconfig.json",
+    "deploy:build": "npm run build && npm run build:server",
+    "deploy:start": "NODE_ENV=production npm run start",
+    "health-check": "curl -f http://localhost:3000/api/health || exit 1"
   },
   "dependencies": {
     "ali-oss": "^6.23.0",

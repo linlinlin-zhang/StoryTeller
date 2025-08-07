@@ -82,6 +82,19 @@ export const photographers: PhotographerData[] = [
     followers: 2890,
     coverImage: getImageUrl("/images/摄影师/戴小岐/自然/微信图片_20240802121525.jpg"),
     joinDate: "2022年11月"
+  },
+  {
+    id: "sbsp",
+    name: "十八 sp",
+    avatar: getImageUrl("/images/头像/十八 sp.jpg"),
+    bio: "微距摄影专家，专注于捕捉微观世界的精彩瞬间，善于发现生活中的细节之美。",
+    specialties: ["微距摄影", "自然摄影", "城市记录"],
+    location: "杭州",
+    contact: "shibasp@example.com",
+    works: 89,
+    followers: 1567,
+    coverImage: getImageUrl("/images/摄影师/十八 sp/微距/微信图片_20250807124224_15.jpg"),
+    joinDate: "2023年8月"
   }
 ];
 
@@ -665,6 +678,73 @@ export const photos: PhotoData[] = [
     likes: 198,
     views: 1456,
     category: "城市"
+  },
+  // 十八 sp 的作品
+  {
+    id: "46",
+    title: "人物写真",
+    image: getImageUrl("/images/摄影师/十八 sp/人物/微信图片_20250807124336_22.jpg"),
+    photographer: photographers[5],
+    camera: "Canon EOS R5",
+    date: "2024.8.15",
+    likes: 324,
+    views: 2156,
+    category: "人物"
+  },
+  {
+    id: "47",
+    title: "城市夜景",
+    image: getImageUrl("/images/摄影师/十八 sp/城市/微信图片_20250728131142_18.jpg"),
+    photographer: photographers[5],
+    camera: "Sony Alpha 7R V",
+    date: "2024.8.20",
+    likes: 456,
+    views: 3245,
+    category: "城市"
+  },
+  {
+    id: "48",
+    title: "微距之美",
+    image: getImageUrl("/images/摄影师/十八 sp/微距/微信图片_20250807124224_15.jpg"),
+    photographer: photographers[5],
+    camera: "Canon EOS R6 Mark II",
+    date: "2024.8.25",
+    likes: 278,
+    views: 1876,
+    category: "微距"
+  },
+  {
+    id: "49",
+    title: "自然风光",
+    image: getImageUrl("/images/摄影师/十八 sp/自然/微信图片_20240802121525.jpg"),
+    photographer: photographers[5],
+    camera: "Nikon Z9",
+    date: "2024.9.1",
+    likes: 567,
+    views: 4123,
+    category: "自然"
+  },
+  {
+    id: "50",
+    title: "生活记录",
+    image: getImageUrl("/images/摄影师/十八 sp/记录/微信图片_20250807124319_24.jpg"),
+    photographer: photographers[5],
+    camera: "Fujifilm X-T5",
+    date: "2024.9.5",
+    likes: 189,
+    views: 1234,
+    category: "记录"
+  },
+  {
+    id: "51",
+    title: "创意摄影",
+    image: getImageUrl("/images/摄影师/十八 sp/未分类/微信图片_20250807124255_25.jpg"),
+    photographer: photographers[5],
+    camera: "Canon EOS R5",
+    date: "2024.9.10",
+    likes: 345,
+    views: 2567,
+    category: "其他"
   }
 ];
 
