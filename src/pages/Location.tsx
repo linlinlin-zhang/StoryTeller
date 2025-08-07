@@ -3,6 +3,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { MapPin, Camera, Clock, Star, ChevronRight } from "lucide-react";
 import { Link } from "react-router-dom";
+import { getImageUrl } from '../utils/imageUtils';
 
 interface LocationDetail {
   id: string;
@@ -21,7 +22,7 @@ const hotLocations: LocationDetail[] = [
   {
     id: "changsha",
     name: "长沙",
-    image: "/images/主页地点图/长沙.jpg",
+    image: getImageUrl("/images/主页地点图/长沙.jpg"),
     description: "湖南省会，历史文化名城，橘子洲头是著名的摄影地点。",
     bestTime: "春秋两季",
     difficulty: "简单",
@@ -33,7 +34,7 @@ const hotLocations: LocationDetail[] = [
   {
     id: "shenzhen",
     name: "深圳",
-    image: "/images/主页地点图/深圳.jpg",
+    image: getImageUrl("/images/主页地点图/深圳.jpg"),
     description: "现代化都市，摩天大楼林立，是城市摄影的绝佳地点。",
     bestTime: "全年",
     difficulty: "中等",
@@ -45,7 +46,7 @@ const hotLocations: LocationDetail[] = [
   {
     id: "foshan",
     name: "佛山",
-    image: "/images/主页地点图/佛山.jpg",
+    image: getImageUrl("/images/主页地点图/佛山.jpg"),
     description: "岭南文化发源地，古建筑与现代建筑交相辉映。",
     bestTime: "春季",
     difficulty: "简单",
@@ -57,7 +58,7 @@ const hotLocations: LocationDetail[] = [
   {
     id: "beijing",
     name: "北京",
-    image: "/images/主页地点图/北京.jpg",
+    image: getImageUrl("/images/主页地点图/北京.jpg"),
     description: "首都北京，故宫、长城等世界文化遗产众多。",
     bestTime: "秋季",
     difficulty: "中等",
@@ -69,7 +70,7 @@ const hotLocations: LocationDetail[] = [
   {
     id: "guangzhou",
     name: "广州",
-    image: "/images/主页地点图/广州.jpg",
+    image: getImageUrl("/images/主页地点图/广州.jpg"),
     description: "千年商都，珠江夜景和现代建筑群是摄影热点。",
     bestTime: "冬春季",
     difficulty: "简单",
@@ -81,7 +82,7 @@ const hotLocations: LocationDetail[] = [
   {
     id: "shanghai",
     name: "上海",
-    image: "/images/主页地点图/上海.jpg",
+    image: getImageUrl("/images/主页地点图/上海.jpg"),
     description: "国际大都市，外滩和陆家嘴是经典拍摄地。",
     bestTime: "全年",
     difficulty: "中等",

@@ -1,12 +1,19 @@
 import mongoose, { Document, Schema } from 'mongoose';
 import bcrypt from 'bcryptjs';
 
+// 用户角色枚举
+export enum UserRole {
+  USER = 'user',
+  ADMIN = 'admin'
+}
+
 // 用户接口定义
 export interface IUser extends Document {
   _id: mongoose.Types.ObjectId;
   username: string;
   email: string;
   password: string;
+  role: UserRole;
   avatar?: string;
   bio?: string;
   website?: string;
@@ -47,6 +54,11 @@ const UserSchema = new Schema<IUser>({
     required: [true, 'Password is required'],
     minlength: [6, 'Password must be at least 6 characters'],
     select: false // 默认查询时不返回密码
+  },
+  role: {
+    type: String,
+    enum: Object.values(UserRole),
+    default: UserRole.USER
   },
   avatar: {
     type: String,

@@ -30,6 +30,14 @@ router.post('/register', createValidationMiddleware(validateUserRegistration), r
 router.post('/login', createValidationMiddleware(validateUserLogin), login);
 router.post('/verify-token', verifyToken);
 
+// Token验证路由（需要认证）
+router.get('/verify', authenticateToken, (req, res) => {
+  res.json({
+    success: true,
+    user: req.user
+  });
+});
+
 // 需要认证的路由
 router.use(authenticateToken);
 router.use(refreshTokenIfNeeded);

@@ -12,11 +12,13 @@ import dotenv from 'dotenv';
 import { fileURLToPath } from 'url';
 import connectDB from './config/database.js';
 import redis from './config/redis.js';
+import { initializeModels } from './models/index.js';
 import authRoutes from './routes/auth.js';
 import uploadRoutes from './routes/upload.js';
 import photoRoutes from './routes/photos.js';
 import interactionRoutes from './routes/interactions.js';
 import userRoutes from './routes/users.js';
+import adminRoutes from './routes/admin.js';
 
 // for esm mode
 const __filename = fileURLToPath(import.meta.url);
@@ -29,6 +31,9 @@ const app: express.Application = express();
 
 // 连接数据库
 connectDB();
+
+// 初始化模型
+initializeModels().catch(console.error);
 
 // 连接Redis
 redis.connect().catch(console.error);
@@ -66,12 +71,14 @@ app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
 /**
- * API// Routes
+ * API Routes
+ */
 app.use('/api/auth', authRoutes);
 app.use('/api/upload', uploadRoutes);
 app.use('/api/photos', photoRoutes);
 app.use('/api/interactions', interactionRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/admin', adminRoutes);
 
 /**
  * health

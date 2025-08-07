@@ -1,20 +1,69 @@
 import OSS from 'ali-oss';
 
-// OSS 客户端配置
-const ossClient = new OSS({
-  region: process.env.ALI_OSS_REGION || 'oss-cn-hangzhou',
-  accessKeyId: process.env.ALI_OSS_ACCESS_KEY_ID || '',
-  accessKeySecret: process.env.ALI_OSS_ACCESS_KEY_SECRET || '',
-  bucket: process.env.ALI_OSS_BUCKET || '',
-  endpoint: process.env.ALI_OSS_ENDPOINT || 'https://oss-cn-hangzhou.aliyuncs.com',
-});
+// OSS 客户端配置（延迟初始化）
+let ossClient: OSS | null = null;
+
+/**
+ * 检查OSS配置是否完整
+ */
+function hasOSSConfig(): boolean {
+  return !!(process.env.ALI_OSS_ACCESS_KEY_ID && 
+           process.env.ALI_OSS_ACCESS_KEY_SECRET && 
+           process.env.ALI_OSS_BUCKET);
+}
+
+/**
+ * 初始化OSS客户端
+ */
+function initOSSClient(): OSS | null {
+  if (ossClient) {
+    return ossClient;
+  }
+  
+  if (!hasOSSConfig()) {
+    console.warn('OSS configuration not found, OSS features will be disabled');
+    return null;
+  }
+  
+  try {
+    ossClient = new OSS({
+      region: process.env.ALI_OSS_REGION || 'oss-cn-hangzhou',
+      accessKeyId: process.env.ALI_OSS_ACCESS_KEY_ID!,
+      accessKeySecret: process.env.ALI_OSS_ACCESS_KEY_SECRET!,
+      bucket: process.env.ALI_OSS_BUCKET!,
+      endpoint: process.env.ALI_OSS_ENDPOINT || 'https://oss-cn-hangzhou.aliyuncs.com',
+    });
+    
+    console.log('✅ OSS客户端初始化成功');
+    return ossClient;
+  } catch (error) {
+    console.error('❌ OSS客户端初始化失败:', error);
+    return null;
+  }
+}
 
 // OSS 服务类
 export class OSSService {
-  private client: OSS;
+  private client: OSS | null = null;
 
   constructor() {
-    this.client = ossClient;
+    // 延迟初始化，在第一次使用时才初始化客户端
+  }
+
+  private getClient(): OSS | null {
+    if (!this.client) {
+      this.client = initOSSClient();
+    }
+    return this.client;
+  }
+
+  private checkOSSAvailable(): boolean {
+    const client = this.getClient();
+    if (!client) {
+      console.warn('OSS client not available, please configure OSS environment variables');
+      return false;
+    }
+    return true;
   }
 
   /**
@@ -29,12 +78,20 @@ export class OSSService {
     url?: string;
     error?: string;
   }> {
+    if (!this.checkOSSAvailable()) {
+      return {
+        success: false,
+        error: 'OSS service not available'
+      };
+    }
+
     try {
       const timestamp = Date.now();
       const fileExtension = fileName.split('.').pop();
       const uniqueFileName = `${folder}/${timestamp}_${Math.random().toString(36).substring(2)}.${fileExtension}`;
       
-      const result = await this.client.put(uniqueFileName, fileBuffer);
+      const client = this.getClient()!;
+      const result = await client.put(uniqueFileName, fileBuffer);
       
       return {
         success: true,
@@ -58,8 +115,16 @@ export class OSSService {
     success: boolean;
     error?: string;
   }> {
+    if (!this.checkOSSAvailable()) {
+      return {
+        success: false,
+        error: 'OSS service not available'
+      };
+    }
+
     try {
-      await this.client.delete(fileName);
+      const client = this.getClient()!;
+      await client.delete(fileName);
       return { success: true };
     } catch (error) {
       console.error('OSS delete error:', error);
@@ -77,8 +142,13 @@ export class OSSService {
    * @returns 签名URL
    */
   async getSignedUrl(fileName: string, expires: number = 3600): Promise<string> {
+    if (!this.checkOSSAvailable()) {
+      throw new Error('OSS service not available');
+    }
+
     try {
-      return this.client.signatureUrl(fileName, {
+      const client = this.getClient()!;
+      return client.signatureUrl(fileName, {
         expires,
         method: 'GET'
       });
@@ -120,8 +190,13 @@ export class OSSService {
    * @returns 是否存在
    */
   async fileExists(fileName: string): Promise<boolean> {
+    if (!this.checkOSSAvailable()) {
+      return false;
+    }
+
     try {
-      await this.client.head(fileName);
+      const client = this.getClient()!;
+      await client.head(fileName);
       return true;
     } catch (error) {
       return false;
@@ -130,4 +205,7 @@ export class OSSService {
 }
 
 export const ossService = new OSSService();
-export default ossClient;
+export default function getOSSClient(): OSS | null {
+  return initOSSClient();
+}
+export { initOSSClient, hasOSSConfig };

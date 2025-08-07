@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { 
@@ -48,6 +49,81 @@ export default function Admin() {
   const [activeTab, setActiveTab] = useState("dashboard");
   const [searchTerm, setSearchTerm] = useState("");
   const [filterStatus, setFilterStatus] = useState("all");
+  const [isLoading, setIsLoading] = useState(true);
+  const [isAuthorized, setIsAuthorized] = useState(false);
+  const navigate = useNavigate();
+
+  // 权限检查
+  useEffect(() => {
+    const checkAdminAccess = () => {
+      const token = localStorage.getItem('token');
+      const userStr = localStorage.getItem('user');
+      
+      if (!token || !userStr) {
+        // 未登录，跳转到管理员登录页
+        navigate('/admin/login');
+        return;
+      }
+
+      try {
+        const user = JSON.parse(userStr);
+        if (user.role !== 'admin') {
+          // 非管理员用户，跳转到首页
+          toast.error('Access denied: Admin privileges required');
+          navigate('/');
+          return;
+        }
+
+        // 验证token是否有效
+        fetch('/api/auth/verify', {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success && data.user.role === 'admin') {
+            setIsAuthorized(true);
+          } else {
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            navigate('/admin/login');
+          }
+        })
+        .catch(() => {
+          localStorage.removeItem('token');
+          localStorage.removeItem('user');
+          navigate('/admin/login');
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
+      } catch (error) {
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        navigate('/admin/login');
+      }
+    };
+
+    checkAdminAccess();
+  }, [navigate]);
+
+  // 加载中状态
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-black mx-auto mb-4"></div>
+          <p className="text-gray-600">Verifying admin access...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // 未授权状态
+  if (!isAuthorized) {
+    return null;
+  }
 
   // 模拟数据
   const stats = {

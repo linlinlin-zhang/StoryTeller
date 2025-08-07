@@ -3,6 +3,8 @@ import { JWTUtils, JWTPayload } from '../utils/jwt';
 import { User } from '../models';
 import { cacheService } from '../config/redis';
 
+import { UserRole } from '../models/User';
+
 // 扩展Request接口以包含用户信息
 declare global {
   namespace Express {
@@ -11,6 +13,7 @@ declare global {
         id: string;
         email: string;
         username: string;
+        role: UserRole;
         isVerified: boolean;
         isActive: boolean;
       };
@@ -80,6 +83,7 @@ export const authenticateToken = async (
         id: user._id.toString(),
         email: user.email,
         username: user.username,
+        role: user.role,
         isVerified: user.isVerified,
         isActive: user.isActive
       });

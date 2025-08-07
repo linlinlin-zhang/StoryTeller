@@ -24,7 +24,8 @@ export const register = async (req: Request, res: Response): Promise<void> => {
     const token = JWTUtils.generateToken({
       userId: user._id,
       email: user.email,
-      username: user.username
+      username: user.username,
+      role: user.role
     });
 
     // 缓存用户信息
@@ -32,6 +33,7 @@ export const register = async (req: Request, res: Response): Promise<void> => {
       id: user._id.toString(),
       email: user.email,
       username: user.username,
+      role: user.role,
       isVerified: user.isVerified,
       isActive: user.isActive
     };
@@ -45,6 +47,7 @@ export const register = async (req: Request, res: Response): Promise<void> => {
           id: user._id,
           username: user.username,
           email: user.email,
+          role: user.role,
           avatar: user.avatar,
           bio: user.bio,
           isVerified: user.isVerified,
@@ -119,7 +122,8 @@ export const login = async (req: Request, res: Response): Promise<void> => {
     const token = JWTUtils.generateToken({
       userId: user._id,
       email: user.email,
-      username: user.username
+      username: user.username,
+      role: user.role
     });
 
     // 缓存用户信息
@@ -127,6 +131,7 @@ export const login = async (req: Request, res: Response): Promise<void> => {
       id: user._id.toString(),
       email: user.email,
       username: user.username,
+      role: user.role,
       isVerified: user.isVerified,
       isActive: user.isActive
     };
@@ -144,6 +149,7 @@ export const login = async (req: Request, res: Response): Promise<void> => {
           id: user._id,
           username: user.username,
           email: user.email,
+          role: user.role,
           avatar: user.avatar,
           bio: user.bio,
           isVerified: user.isVerified,

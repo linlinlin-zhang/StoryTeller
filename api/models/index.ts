@@ -1,18 +1,25 @@
-// 统一导出所有数据模型
-export { default as User, IUser } from './User';
-export { default as Photo, IPhoto } from './Photo';
-export { default as Comment, IComment } from './Comment';
-export { default as Like, ILike } from './Like';
-export { default as Follow, IFollow } from './Follow';
+// 统一导出所有模型
+export { default as User } from './User.js';
+export { default as Photo } from './Photo.js';
+export { default as Comment } from './Comment.js';
+export { default as Like } from './Like.js';
+export { default as Follow } from './Follow.js';
+
+// 导出接口
+export type { IUser } from './User.js';
+export type { IPhoto } from './Photo.js';
+export type { IComment } from './Comment.js';
+export type { ILike } from './Like.js';
+export type { IFollow } from './Follow.js';
 
 // 模型初始化函数
-export const initializeModels = () => {
+export const initializeModels = async () => {
   // 导入所有模型以确保它们被注册到mongoose
-  require('./User');
-  require('./Photo');
-  require('./Comment');
-  require('./Like');
-  require('./Follow');
+  await import('./User.js');
+  await import('./Photo.js');
+  await import('./Comment.js');
+  await import('./Like.js');
+  await import('./Follow.js');
   
   console.log('All models initialized successfully');
 };
@@ -23,7 +30,7 @@ export const clearDatabase = async () => {
     throw new Error('Database clearing is only allowed in development environment');
   }
   
-  const { User, Photo, Comment, Like, Follow } = require('./index');
+  const { User, Photo, Comment, Like, Follow } = await import('./index.js');
   
   try {
     await Promise.all([
@@ -47,7 +54,7 @@ export const seedDatabase = async () => {
     throw new Error('Database seeding is only allowed in development environment');
   }
   
-  const { User } = require('./index');
+  const { User } = await import('./index.js');
   
   try {
     // 检查是否已有数据

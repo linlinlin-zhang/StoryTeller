@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { getImageUrl } from '../utils/imageUtils';
 
 export interface User {
   id: string;
@@ -62,7 +63,7 @@ export const mockUsers: Record<string, User> = {
     id: '1',
     name: '演示用户',
     email: 'demo@example.com',
-    avatar: '/images/微信图片_20240723091716.png',
+    avatar: getImageUrl('/images/微信图片_20240723091716.png'),
     bio: '热爱摄影的创作者，专注于城市风光和人像摄影。',
     location: '北京',
     joinDate: '2024.01.15',

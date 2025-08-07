@@ -8,6 +8,7 @@ import PhotographerList from "@/pages/PhotographerList";
 import Login from "@/pages/Login";
 import Register from "@/pages/Register";
 import Admin from "@/pages/Admin";
+import AdminLogin from "@/pages/AdminLogin";
 import Upload from "@/pages/Upload";
 import Profile from "@/pages/Profile";
 
@@ -37,6 +38,7 @@ export default function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/admin" element={<Admin />} />
+          <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/upload" element={<Upload />} />
           <Route path="/profile" element={<Profile />} />
         </Routes>

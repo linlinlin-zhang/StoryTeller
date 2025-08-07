@@ -37,7 +37,7 @@ export default function PhotographerList() {
                   <img
                     src={photographer.coverImage}
                     alt={`${photographer.name}的作品`}
-                    className="w-full aspect-[4/5] object-cover filter grayscale group-hover:grayscale-0 transition-all duration-500"
+                    className="w-full aspect-[4/5] object-cover transition-all duration-500"
                   />
                   <div className={`absolute inset-0 bg-black transition-opacity duration-300 ${
                     hoveredCard === photographer.id ? 'opacity-10' : 'opacity-0'
@@ -49,7 +49,7 @@ export default function PhotographerList() {
                   <img
                     src={photographer.avatar}
                     alt={photographer.name}
-                    className="w-20 h-20 object-cover filter grayscale group-hover:grayscale-0 transition-all duration-500"
+                    className="w-20 h-20 object-cover transition-all duration-500"
                   />
                 </div>
 

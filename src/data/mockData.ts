@@ -1,5 +1,6 @@
 import { PhotoData } from "@/components/PhotoCard";
 import { importAllPhotos, getPhotoStats } from "@/utils/photoImporter";
+import { getImageUrl } from "@/utils/imageUtils";
 
 // 摄影师数据
 export interface PhotographerData {
@@ -20,66 +21,66 @@ export const photographers: PhotographerData[] = [
   {
     id: "zsl",
     name: "长雨林",
-    avatar: "/images/头像/长雨林.png",
+    avatar: getImageUrl("/images/头像/长雨林.png"),
     bio: "专注于自然风光和人文摄影，擅长捕捉光影的瞬间变化。",
     specialties: ["风光摄影", "人文摄影", "胶片摄影"],
     location: "广州",
     contact: "zhangyulin@example.com",
     works: 156,
     followers: 2340,
-    coverImage: "/images/摄影师/长雨林/人物/000003920008-已增强-SR.jpg",
+    coverImage: getImageUrl("/images/摄影师/长雨林/人物/000003920008-已增强-SR.jpg"),
     joinDate: "2022年3月"
   },
   {
     id: "zym",
     name: "LTDSA",
-    avatar: "/images/头像/LTDSA.jpg",
+    avatar: getImageUrl("/images/头像/LTDSA.jpg"),
     bio: "航拍摄影师，专注于城市建筑和自然风光的空中视角。",
     specialties: ["航拍摄影", "建筑摄影", "城市摄影"],
     location: "深圳",
     contact: "ltdsa@example.com",
     works: 89,
     followers: 1890,
-    coverImage: "/images/摄影师/LTDSA/自然/微信图片_20240802132116.jpg",
+    coverImage: getImageUrl("/images/摄影师/LTDSA/自然/微信图片_20240802132116.jpg"),
     joinDate: "2023年1月"
   },
   {
     id: "cfy",
     name: "Flyverse",
-    avatar: "/images/头像/Flyverse.jpg",
+    avatar: getImageUrl("/images/头像/Flyverse.jpg"),
     bio: "人像摄影师，善于捕捉人物的情感表达和自然状态。",
     specialties: ["人像摄影", "情感摄影", "生活摄影"],
     location: "北京",
     contact: "flyverse@example.com",
     works: 234,
     followers: 3120,
-    coverImage: "/images/摄影师/Flyverse/人物/微信图片_20240802143756.jpg",
+    coverImage: getImageUrl("/images/摄影师/Flyverse/人物/微信图片_20240802143756.jpg"),
     joinDate: "2021年8月"
   },
   {
     id: "lqr",
     name: "Tp",
-    avatar: "/images/头像/Tp.jpg",
+    avatar: getImageUrl("/images/头像/Tp.jpg"),
     bio: "建筑摄影专家，专注于现代建筑的几何美学。",
     specialties: ["建筑摄影", "几何构图", "黑白摄影"],
     location: "上海",
     contact: "tp@example.com",
     works: 67,
     followers: 1456,
-    coverImage: "/images/摄影师/TP/建筑/微信图片_20240802183337.jpg",
+    coverImage: getImageUrl("/images/摄影师/TP/建筑/微信图片_20240802183337.jpg"),
     joinDate: "2023年5月"
   },
   {
     id: "dq",
     name: "戴小岐",
-    avatar: "/images/头像/戴小岐.jpg",
+    avatar: getImageUrl("/images/头像/戴小岐.jpg"),
     bio: "自然风光摄影师，热爱日出日落和海景拍摄。",
     specialties: ["风光摄影", "海景摄影", "日出日落"],
     location: "厦门",
     contact: "daixiaoqi@example.com",
     works: 123,
     followers: 2890,
-    coverImage: "/images/摄影师/戴小岐/自然/微信图片_20240802121525.jpg",
+    coverImage: getImageUrl("/images/摄影师/戴小岐/自然/微信图片_20240802121525.jpg"),
     joinDate: "2022年11月"
   }
 ];
@@ -100,62 +101,62 @@ export const locations: LocationData[] = [
   {
     id: "changsha",
     name: "长沙",
-    image: "/images/主页地点图/长沙.jpg",
+    image: getImageUrl("/images/主页地点图/长沙.jpg"),
     description: "湖南省会，历史文化名城，橘子洲头是著名的摄影地点。",
     bestTime: "春秋两季",
     difficulty: "简单",
     tips: "建议傍晚时分前往橘子洲头拍摄湘江夜景。",
-    photos: ["/images/主页地点图/长沙.jpg"]
+    photos: [getImageUrl("/images/主页地点图/长沙.jpg")]
   },
   {
     id: "shenzhen",
     name: "深圳",
-    image: "/images/主页地点图/深圳.jpg",
+    image: getImageUrl("/images/主页地点图/深圳.jpg"),
     description: "现代化都市，高楼林立，是城市建筑摄影的绝佳地点。",
     bestTime: "全年",
     difficulty: "中等",
     tips: "推荐莲花山公园俯拍城市天际线，夜景尤为壮观。",
-    photos: ["/images/主页地点图/深圳.jpg"]
+    photos: [getImageUrl("/images/主页地点图/深圳.jpg")]
   },
   {
     id: "foshan",
     name: "佛山",
-    image: "/images/主页地点图/佛山.jpg",
+    image: getImageUrl("/images/主页地点图/佛山.jpg"),
     description: "岭南文化发源地，古建筑与现代建筑交相辉映。",
     bestTime: "春季",
     difficulty: "简单",
     tips: "祖庙和岭南天地是不错的拍摄地点。",
-    photos: ["/images/主页地点图/佛山.jpg"]
+    photos: [getImageUrl("/images/主页地点图/佛山.jpg")]
   },
   {
     id: "zhuhai",
     name: "珠海",
-    image: "/images/主页地点图/珠海 .jpg",
+    image: getImageUrl("/images/主页地点图/珠海 .jpg"),
     description: "海滨城市，拥有美丽的海岸线和现代化建筑。",
     bestTime: "秋冬季",
     difficulty: "简单",
     tips: "情侣路是拍摄海景的最佳地点，日落时分最美。",
-    photos: ["/images/主页地点图/珠海 .jpg"]
+    photos: [getImageUrl("/images/主页地点图/珠海 .jpg")]
   },
   {
     id: "guangzhou",
     name: "广州",
-    image: "/images/主页地点图/广州.jpg",
+    image: getImageUrl("/images/主页地点图/广州.jpg"),
     description: "千年商都，传统与现代完美融合的摄影天堂。",
     bestTime: "全年",
     difficulty: "中等",
     tips: "小蛮腰和珠江夜游是必拍的经典场景。",
-    photos: ["/images/主页地点图/广州.jpg"]
+    photos: [getImageUrl("/images/主页地点图/广州.jpg")]
   },
   {
     id: "nanjing",
     name: "南京",
-    image: "/images/主页地点图/南京.jpg",
+    image: getImageUrl("/images/主页地点图/南京.jpg"),
     description: "六朝古都，历史底蕴深厚，四季皆有不同美景。",
     bestTime: "春秋两季",
     difficulty: "中等",
     tips: "中山陵和夫子庙是经典的拍摄地点。",
-    photos: ["/images/主页地点图/南京.jpg"]
+    photos: [getImageUrl("/images/主页地点图/南京.jpg")]
   }
 ];
 
@@ -165,7 +166,7 @@ export const photos: PhotoData[] = [
   {
     id: "1",
     title: "永恒与一日",
-    image: "/images/摄影师/长雨林/自然/000000490034-已增强-SR.jpg",
+    image: getImageUrl("/images/摄影师/长雨林/自然/000000490034-已增强-SR.jpg"),
     photographer: photographers[0],
     camera: "Nikon F2a",
     date: "2024.7.10",
@@ -176,7 +177,7 @@ export const photos: PhotoData[] = [
   {
     id: "2",
     title: "因你们而火热",
-    image: "/images/摄影师/长雨林/人物/000003920008-已增强-SR.jpg",
+    image: getImageUrl("/images/摄影师/长雨林/人物/000003920008-已增强-SR.jpg"),
     photographer: photographers[0],
     camera: "Nikon F2a",
     date: "2024.7.10",
@@ -187,7 +188,7 @@ export const photos: PhotoData[] = [
   {
     id: "3",
     title: "中央图书馆",
-    image: "/images/摄影师/长雨林/建筑/DSC00947 (2).jpg",
+    image: getImageUrl("/images/摄影师/长雨林/建筑/DSC00947 (2).jpg"),
     photographer: photographers[0],
     camera: "Sony Alpha 7 Ⅳ",
     date: "2024.5.20",
@@ -198,7 +199,7 @@ export const photos: PhotoData[] = [
   {
     id: "4",
     title: "同华路11号",
-    image: "/images/摄影师/长雨林/城市/微信图片_20240802202003.jpg",
+    image: getImageUrl("/images/摄影师/长雨林/城市/微信图片_20240802202003.jpg"),
     photographer: photographers[0],
     camera: "Nikon EL2",
     date: "2023.9.4",
@@ -209,7 +210,7 @@ export const photos: PhotoData[] = [
   {
     id: "5",
     title: "在海边做梦",
-    image: "/images/摄影师/长雨林/记录/微信图片_20240802205538.jpg",
+    image: getImageUrl("/images/摄影师/长雨林/记录/微信图片_20240802205538.jpg"),
     photographer: photographers[0],
     camera: "Nikon EL2",
     date: "2024.1.22",
@@ -220,7 +221,7 @@ export const photos: PhotoData[] = [
   {
     id: "6",
     title: "走出人群",
-    image: "/images/摄影师/长雨林/记录/LT-NORITSU43981-2.jpg",
+    image: getImageUrl("/images/摄影师/长雨林/记录/LT-NORITSU43981-2.jpg"),
     photographer: photographers[0],
     camera: "Sony Alpha 7 Ⅳ",
     date: "2023.11.4",
@@ -231,7 +232,7 @@ export const photos: PhotoData[] = [
   {
     id: "7",
     title: "光影交错",
-    image: "/images/摄影师/长雨林/未分类/000000490008-已增强-SR.jpg",
+    image: getImageUrl("/images/摄影师/长雨林/未分类/000000490008-已增强-SR.jpg"),
     photographer: photographers[0],
     camera: "Canon EOS 5D Mark IV",
     date: "2024.5.22",
@@ -242,7 +243,7 @@ export const photos: PhotoData[] = [
   {
     id: "8",
     title: "城市印象",
-    image: "/images/摄影师/长雨林/城市/000000490030-已增强-SR.jpg",
+    image: getImageUrl("/images/摄影师/长雨林/城市/000000490030-已增强-SR.jpg"),
     photographer: photographers[0],
     camera: "Nikon Z9",
     date: "2024.7.8",
@@ -253,7 +254,7 @@ export const photos: PhotoData[] = [
   {
     id: "9",
     title: "夏日午后",
-    image: "/images/摄影师/长雨林/未分类/000001020003-已增强-SR.jpg",
+    image: getImageUrl("/images/摄影师/长雨林/未分类/000001020003-已增强-SR.jpg"),
     photographer: photographers[0],
     camera: "Canon EOS R6 Mark II",
     date: "2024.6.30",
@@ -264,7 +265,7 @@ export const photos: PhotoData[] = [
   {
     id: "10",
     title: "人间烟火",
-    image: "/images/摄影师/长雨林/建筑/000001020006-已增强-SR.jpg",
+    image: getImageUrl("/images/摄影师/长雨林/建筑/000001020006-已增强-SR.jpg"),
     photographer: photographers[0],
     camera: "Fujifilm X-T5",
     date: "2024.5.12",
@@ -275,7 +276,7 @@ export const photos: PhotoData[] = [
   {
     id: "11",
     title: "佛山古韵",
-    image: "/images/摄影师/长雨林/建筑/4733 (12).jpg",
+    image: getImageUrl("/images/摄影师/长雨林/建筑/4733 (12).jpg"),
     photographer: photographers[0],
     camera: "Canon EOS 5D Mark IV",
     date: "2024.4.15",
@@ -286,7 +287,7 @@ export const photos: PhotoData[] = [
   {
     id: "12",
     title: "传统与现代",
-    image: "/images/摄影师/长雨林/建筑/4733 (14).jpg",
+    image: getImageUrl("/images/摄影师/长雨林/建筑/4733 (14).jpg"),
     photographer: photographers[0],
     camera: "Sony Alpha 7R V",
     date: "2024.4.16",
@@ -297,7 +298,7 @@ export const photos: PhotoData[] = [
   {
     id: "13",
     title: "长沙印象",
-    image: "/images/摄影师/长雨林/城市/0689 (14)-已增强-SR.jpg",
+    image: getImageUrl("/images/摄影师/长雨林/城市/0689 (14)-已增强-SR.jpg"),
     photographer: photographers[0],
     camera: "Nikon Z9",
     date: "2024.3.20",
@@ -308,7 +309,7 @@ export const photos: PhotoData[] = [
   {
     id: "14",
     title: "城市天际线",
-    image: "/images/摄影师/长雨林/城市/0689 (16).jpg",
+    image: getImageUrl("/images/摄影师/长雨林/城市/0689 (16).jpg"),
     photographer: photographers[0],
     camera: "Canon EOS R6 Mark II",
     date: "2024.3.22",
@@ -319,7 +320,7 @@ export const photos: PhotoData[] = [
   {
     id: "15",
     title: "深圳夜景",
-    image: "/images/摄影师/长雨林/城市/DSC02247.jpg",
+    image: getImageUrl("/images/摄影师/长雨林/城市/DSC02247.jpg"),
     photographer: photographers[0],
     camera: "Sony Alpha 7 IV",
     date: "2024.2.18",
@@ -330,7 +331,7 @@ export const photos: PhotoData[] = [
   {
     id: "16",
     title: "海岸风光",
-    image: "/images/摄影师/长雨林/建筑/DSC06221-已增强.jpg",
+    image: getImageUrl("/images/摄影师/长雨林/建筑/DSC06221-已增强.jpg"),
     photographer: photographers[0],
     camera: "Canon EOS 850D",
     date: "2024.1.25",
@@ -341,7 +342,7 @@ export const photos: PhotoData[] = [
   {
     id: "17",
     title: "胶片质感",
-    image: "/images/摄影师/长雨林/记录/LT-NORITSU43981-2.jpg",
+    image: getImageUrl("/images/摄影师/长雨林/记录/LT-NORITSU43981-2.jpg"),
     photographer: photographers[0],
     camera: "Nikon F2a",
     date: "2024.5.8",
@@ -352,7 +353,7 @@ export const photos: PhotoData[] = [
   {
     id: "18",
     title: "南京古城",
-    image: "/images/摄影师/长雨林/城市/000010.jpg",
+    image: getImageUrl("/images/摄影师/长雨林/城市/000010.jpg"),
     photographer: photographers[0],
     camera: "Fujifilm X-T5",
     date: "2024.4.12",
@@ -363,7 +364,7 @@ export const photos: PhotoData[] = [
   {
     id: "19",
     title: "都市节奏",
-    image: "/images/摄影师/长雨林/人物/微信图片_20240802185209.jpg",
+    image: getImageUrl("/images/摄影师/长雨林/人物/微信图片_20240802185209.jpg"),
     photographer: photographers[0],
     camera: "Sony Alpha 7R V",
     date: "2024.7.5",
@@ -374,7 +375,7 @@ export const photos: PhotoData[] = [
   {
     id: "20",
     title: "工作室一角",
-    image: "/images/摄影师/长雨林/人物/微信图片_20250415152739 (2).jpg",
+    image: getImageUrl("/images/摄影师/长雨林/人物/微信图片_20250415152739 (2).jpg"),
     photographer: photographers[0],
     camera: "Nikon Z9",
     date: "2024.7.23",
@@ -387,7 +388,7 @@ export const photos: PhotoData[] = [
   {
     id: "21",
     title: "山的尽头是海",
-    image: "/images/摄影师/LTDSA/自然/微信图片_20240802132116.jpg",
+    image: getImageUrl("/images/摄影师/LTDSA/自然/微信图片_20240802132116.jpg"),
     photographer: photographers[1],
     camera: "DJI Air 2S",
     date: "2024.7.10",
@@ -398,7 +399,7 @@ export const photos: PhotoData[] = [
   {
     id: "22",
     title: "太阳在坠落，海岸在发愁",
-    image: "/images/摄影师/LTDSA/人物/微信图片_20240802145538.jpg",
+    image: getImageUrl("/images/摄影师/LTDSA/人物/微信图片_20240802145538.jpg"),
     photographer: photographers[1],
     camera: "Canon EOS 5D Mark IV",
     date: "2024.3.13",
@@ -409,7 +410,7 @@ export const photos: PhotoData[] = [
   {
     id: "23",
     title: "旧地重游",
-    image: "/images/摄影师/LTDSA/城市/微信图片_20240802192350.jpg",
+    image: getImageUrl("/images/摄影师/LTDSA/城市/微信图片_20240802192350.jpg"),
     photographer: photographers[1],
     camera: "Canon EOS 5D Mark IV",
     date: "2024.3.10",
@@ -420,7 +421,7 @@ export const photos: PhotoData[] = [
   {
     id: "24",
     title: "无人之境",
-    image: "/images/摄影师/LTDSA/建筑/微信图片_20240802182434.jpg",
+    image: getImageUrl("/images/摄影师/LTDSA/建筑/微信图片_20240802182434.jpg"),
     photographer: photographers[1],
     camera: "Canon EOS 5D Mark IV",
     date: "2024.5.14",
@@ -431,7 +432,7 @@ export const photos: PhotoData[] = [
   {
     id: "25",
     title: "自然风光",
-    image: "/images/摄影师/LTDSA/自然/微信图片_20250729105041_229.jpg",
+    image: getImageUrl("/images/摄影师/LTDSA/自然/微信图片_20250729105041_229.jpg"),
     photographer: photographers[1],
     camera: "DJI Air 2S",
     date: "2024.6.15",
@@ -442,7 +443,7 @@ export const photos: PhotoData[] = [
   {
     id: "26",
     title: "城市建筑",
-    image: "/images/摄影师/LTDSA/城市/微信图片_20250729105042_218.jpg",
+    image: getImageUrl("/images/摄影师/LTDSA/城市/微信图片_20250729105042_218.jpg"),
     photographer: photographers[1],
     camera: "Sony Alpha 7R V",
     date: "2024.4.18",
@@ -453,7 +454,7 @@ export const photos: PhotoData[] = [
   {
     id: "27",
     title: "建筑美学",
-    image: "/images/摄影师/LTDSA/建筑/微信图片_20250729105042_221.jpg",
+    image: getImageUrl("/images/摄影师/LTDSA/建筑/微信图片_20250729105042_221.jpg"),
     photographer: photographers[1],
     camera: "Nikon Z9",
     date: "2024.7.8",
@@ -464,7 +465,7 @@ export const photos: PhotoData[] = [
   {
     id: "28",
     title: "人物肖像",
-    image: "/images/摄影师/LTDSA/人物/微信图片_20250729105042_224.jpg",
+    image: getImageUrl("/images/摄影师/LTDSA/人物/微信图片_20250729105042_224.jpg"),
     photographer: photographers[1],
     camera: "Canon EOS R6 Mark II",
     date: "2024.6.30",
@@ -477,7 +478,7 @@ export const photos: PhotoData[] = [
   {
     id: "29",
     title: "万花丛中过，片叶不沾身",
-    image: "/images/摄影师/Flyverse/人物/微信图片_20240802143756.jpg",
+    image: getImageUrl("/images/摄影师/Flyverse/人物/微信图片_20240802143756.jpg"),
     photographer: photographers[2],
     camera: "Canon EOS 5D Mark Ⅲ",
     date: "2021.3.17",
@@ -488,7 +489,7 @@ export const photos: PhotoData[] = [
   {
     id: "30",
     title: "我怀念的",
-    image: "/images/摄影师/Flyverse/自然/微信图片_20240802134101.jpg",
+    image: getImageUrl("/images/摄影师/Flyverse/自然/微信图片_20240802134101.jpg"),
     photographer: photographers[2],
     camera: "Canon EOS 5D Mark IV",
     date: "2021.7.16",
@@ -499,7 +500,7 @@ export const photos: PhotoData[] = [
   {
     id: "31",
     title: "破败之中亦有生机",
-    image: "/images/摄影师/Flyverse/城市/微信图片_20240802194442.jpg",
+    image: getImageUrl("/images/摄影师/Flyverse/城市/微信图片_20240802194442.jpg"),
     photographer: photographers[2],
     camera: "Canon EOS R6 Mark II",
     date: "2024.7.21",
@@ -510,7 +511,7 @@ export const photos: PhotoData[] = [
   {
     id: "32",
     title: "无问西东",
-    image: "/images/摄影师/Flyverse/城市/EH0A8980-已增强-2.jpg",
+    image: getImageUrl("/images/摄影师/Flyverse/城市/EH0A8980-已增强-2.jpg"),
     photographer: photographers[2],
     camera: "Canon EOS R6 Mark II",
     date: "2023.7.20",
@@ -521,7 +522,7 @@ export const photos: PhotoData[] = [
   {
     id: "33",
     title: "城市风光",
-    image: "/images/摄影师/Flyverse/城市/DSC00577.jpg",
+    image: getImageUrl("/images/摄影师/Flyverse/城市/DSC00577.jpg"),
     photographer: photographers[2],
     camera: "Sony Alpha 7 IV",
     date: "2024.2.18",
@@ -534,7 +535,7 @@ export const photos: PhotoData[] = [
   {
     id: "34",
     title: "TP的宫殿",
-    image: "/images/摄影师/TP/建筑/微信图片_20240802183337.jpg",
+    image: getImageUrl("/images/摄影师/TP/建筑/微信图片_20240802183337.jpg"),
     photographer: photographers[3],
     camera: "Nikon Z9",
     date: "2024.8.2",
@@ -545,7 +546,7 @@ export const photos: PhotoData[] = [
   {
     id: "35",
     title: "永恒与一日",
-    image: "/images/摄影师/TP/自然/000003920036-已增强-SR.jpg",
+    image: getImageUrl("/images/摄影师/TP/自然/000003920036-已增强-SR.jpg"),
     photographer: photographers[3],
     camera: "Nikon F2a",
     date: "2024.7.10",
@@ -556,7 +557,7 @@ export const photos: PhotoData[] = [
   {
     id: "36",
     title: "人像摄影",
-    image: "/images/摄影师/TP/人物/IMGL6735.JPG",
+    image: getImageUrl("/images/摄影师/TP/人物/IMGL6735.JPG"),
     photographer: photographers[3],
     camera: "Canon EOS 5D Mark IV",
     date: "2024.6.15",
@@ -567,7 +568,7 @@ export const photos: PhotoData[] = [
   {
     id: "37",
     title: "创意摄影",
-    image: "/images/摄影师/TP/未分类/2358720_153.jpg",
+    image: getImageUrl("/images/摄影师/TP/未分类/2358720_153.jpg"),
     photographer: photographers[3],
     camera: "Sony Alpha 7R V",
     date: "2024.4.18",
@@ -578,7 +579,7 @@ export const photos: PhotoData[] = [
   {
     id: "38",
     title: "摄影师肖像",
-    image: "/images/摄影师/TP/人物/微信图片_20240802195946.jpg",
+    image: getImageUrl("/images/摄影师/TP/人物/微信图片_20240802195946.jpg"),
     photographer: photographers[3],
     camera: "Canon EOS 5D Mark IV",
     date: "2024.6.28",
@@ -589,7 +590,7 @@ export const photos: PhotoData[] = [
   {
     id: "39",
     title: "自然风光",
-    image: "/images/摄影师/TP/自然/_H4A8661-已增强-降噪.jpg",
+    image: getImageUrl("/images/摄影师/TP/自然/_H4A8661-已增强-降噪.jpg"),
     photographer: photographers[3],
     camera: "Canon EOS R6 Mark II",
     date: "2024.5.12",
@@ -600,7 +601,7 @@ export const photos: PhotoData[] = [
   {
     id: "40",
     title: "创意作品",
-    image: "/images/摄影师/TP/未分类/微信图片_20250729113923_230.jpg",
+    image: getImageUrl("/images/摄影师/TP/未分类/微信图片_20250729113923_230.jpg"),
     photographer: photographers[3],
     camera: "Fujifilm X-T5",
     date: "2024.4.12",
@@ -613,7 +614,7 @@ export const photos: PhotoData[] = [
   {
     id: "41",
     title: "厦门日出",
-    image: "/images/摄影师/戴小岐/自然/微信图片_20240802121525.jpg",
+    image: getImageUrl("/images/摄影师/戴小岐/自然/微信图片_20240802121525.jpg"),
     photographer: photographers[4],
     camera: "Canon EOS 850D",
     date: "2024.7.15",
@@ -624,7 +625,7 @@ export const photos: PhotoData[] = [
   {
     id: "42",
     title: "城市印象",
-    image: "/images/摄影师/戴小岐/城市/微信图片_20250728131142_18.jpg",
+    image: getImageUrl("/images/摄影师/戴小岐/城市/微信图片_20250728131142_18.jpg"),
     photographer: photographers[4],
     camera: "Nikon Z9",
     date: "2024.7.8",
@@ -635,7 +636,7 @@ export const photos: PhotoData[] = [
   {
     id: "43",
     title: "夏日午后",
-    image: "/images/摄影师/戴小岐/城市/微信图片_20250729112202_238.jpg",
+    image: getImageUrl("/images/摄影师/戴小岐/城市/微信图片_20250729112202_238.jpg"),
     photographer: photographers[4],
     camera: "Canon EOS R6 Mark II",
     date: "2024.6.30",
@@ -646,7 +647,7 @@ export const photos: PhotoData[] = [
   {
     id: "44",
     title: "城市建筑",
-    image: "/images/摄影师/戴小岐/城市/微信图片_20250728131142_19.jpg",
+    image: getImageUrl("/images/摄影师/戴小岐/城市/微信图片_20250728131142_19.jpg"),
     photographer: photographers[4],
     camera: "Sony Alpha 7R V",
     date: "2024.7.5",
@@ -657,7 +658,7 @@ export const photos: PhotoData[] = [
   {
     id: "45",
     title: "都市风光",
-    image: "/images/摄影师/戴小岐/城市/微信图片_20250728131142_20.jpg",
+    image: getImageUrl("/images/摄影师/戴小岐/城市/微信图片_20250728131142_20.jpg"),
     photographer: photographers[4],
     camera: "Nikon Z9",
     date: "2024.7.23",
@@ -754,7 +755,7 @@ export const equipment: EquipmentData[] = [
     name: "Nikon F2a",
     brand: "Nikon",
     type: "胶片相机",
-    image: "/images/equipment/nikon-f2a.jpg",
+    image: getImageUrl("/images/equipment/nikon-f2a.jpg"),
     description: "经典的35mm胶片单反相机，以其坚固耐用和出色的光学性能而闻名。",
     specs: {
       "类型": "35mm胶片单反",
@@ -772,7 +773,7 @@ export const equipment: EquipmentData[] = [
     name: "Canon EOS 5D Mark IV",
     brand: "Canon",
     type: "数码单反",
-    image: "/images/equipment/canon-5d-mark-iv.jpg",
+    image: getImageUrl("/images/equipment/canon-5d-mark-iv.jpg"),
     description: "专业级全画幅数码单反相机，拥有3040万像素和出色的低光性能。",
     specs: {
       "传感器": "全画幅CMOS",
@@ -790,7 +791,7 @@ export const equipment: EquipmentData[] = [
     name: "Sony Alpha 7R V",
     brand: "Sony",
     type: "无反相机",
-    image: "/images/equipment/sony-a7r-v.jpg",
+    image: getImageUrl("/images/equipment/sony-a7r-v.jpg"),
     description: "高分辨率全画幅无反相机，配备6100万像素传感器和先进的AI对焦系统。",
     specs: {
       "传感器": "全画幅CMOS",
@@ -808,7 +809,7 @@ export const equipment: EquipmentData[] = [
     name: "DJI Air 2S",
     brand: "DJI",
     type: "无人机",
-    image: "/images/equipment/dji-air-2s.jpg",
+    image: getImageUrl("/images/equipment/dji-air-2s.jpg"),
     description: "专业航拍无人机，配备1英寸CMOS传感器，支持5.4K视频录制。",
     specs: {
       "传感器": "1英寸CMOS",
@@ -826,7 +827,7 @@ export const equipment: EquipmentData[] = [
     name: "Fujifilm X-T5",
     brand: "Fujifilm",
     type: "无反相机",
-    image: "/images/equipment/fujifilm-x-t5.jpg",
+    image: getImageUrl("/images/equipment/fujifilm-x-t5.jpg"),
     description: "APS-C画幅无反相机，以其出色的色彩表现和复古设计而著称。",
     specs: {
       "传感器": "APS-C CMOS",

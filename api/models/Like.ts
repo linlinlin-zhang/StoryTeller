@@ -214,4 +214,4 @@ LikeSchema.statics.getUserLikes = async function(
   }
 };
 
-export default mongoose.model<ILike>('Like', Li
+export default mongoose.model<ILike>('Like', LikeSchema);

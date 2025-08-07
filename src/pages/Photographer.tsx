@@ -77,7 +77,7 @@ export default function Photographer() {
             <img
               src={photographer.avatar}
               alt={photographer.name}
-              className="w-64 h-64 object-cover filter grayscale"
+              className="w-64 h-64 object-cover"
             />
           </div>
           
@@ -197,7 +197,7 @@ export default function Photographer() {
                     <img 
                       src={photo.image} 
                       alt={photo.title}
-                      className="w-full h-auto object-contain filter grayscale group-hover:grayscale-0 transition-all duration-500"
+                      className="w-full h-auto object-contain transition-all duration-500"
                       loading="lazy"
                     />
                     {/* 简化的信息显示 */}
