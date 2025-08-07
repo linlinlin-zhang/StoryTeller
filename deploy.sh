@@ -48,7 +48,7 @@ apt install -y curl wget git nginx
 
 # 安装MongoDB工具
 print_info "安装MongoDB工具..."
-wget -qO - https://www.mongodb.org/static/pgp/server-6.0.asc | apt-key add -
+wget -qO - https://www.mongodb.org/static/pgp/server-6.0.asc | gpg --dearmor | tee /etc/apt/trusted.gpg.d/mongodb-server-6.0.gpg > /dev/null
 echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/6.0 multiverse" | tee /etc/apt/sources.list.d/mongodb-org-6.0.list
 apt update
 apt install -y mongodb-mongosh mongodb-database-tools
@@ -70,7 +70,20 @@ cd $PROJECT_DIR
 # 6. 克隆或更新代码
 if [ -d ".git" ]; then
     print_info "更新代码..."
-    git pull origin master
+    # 检测远程默认分支
+    DEFAULT_BRANCH=$(git symbolic-ref refs/remotes/origin/HEAD 2>/dev/null | sed 's@^refs/remotes/origin/@@' || echo "main")
+    if [ -z "$DEFAULT_BRANCH" ]; then
+        # 如果无法检测到默认分支，尝试常见的分支名
+        if git ls-remote --heads origin main | grep -q main; then
+            DEFAULT_BRANCH="main"
+        elif git ls-remote --heads origin master | grep -q master; then
+            DEFAULT_BRANCH="master"
+        else
+            DEFAULT_BRANCH="main"  # 默认使用main
+        fi
+    fi
+    print_info "使用分支: $DEFAULT_BRANCH"
+    git pull origin $DEFAULT_BRANCH
 else
     print_info "克隆代码仓库..."
     git clone $GIT_REPO .

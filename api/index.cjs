@@ -1,7 +1,7 @@
 /**
  * Production server entry file
  */
-import app from './app.js';
+const app = require('./app.cjs');
 
 /**
  * Start server with port
@@ -31,4 +31,4 @@ process.on('SIGINT', () => {
   });
 });
 
-export default server;
+module.exports = server;

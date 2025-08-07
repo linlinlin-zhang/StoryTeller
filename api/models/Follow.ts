@@ -258,4 +258,4 @@ FollowSchema.statics.getMutualFollows = async function(
   }
 };
 
-export default mongoose.model<IFollow, IFollowModel>('Follow', FollowSchema);
+export default mongoose.model<IFollow>('Follow', FollowSchema);

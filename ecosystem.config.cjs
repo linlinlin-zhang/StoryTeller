@@ -1,7 +1,7 @@
-export default {
+module.exports = {
   apps: [{
     name: 'photo-platform',
-    script: './api/index.js',
+    script: './api/index.cjs',
     instances: 'max',
     exec_mode: 'cluster',
     env: {
