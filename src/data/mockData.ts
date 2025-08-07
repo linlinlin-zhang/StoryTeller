@@ -1,6 +1,6 @@
 import { PhotoData } from "@/components/PhotoCard";
 import { importAllPhotos, getPhotoStats } from "@/utils/photoImporter";
-import { getImageUrl } from "@/utils/imageUtils";
+import { getImageUrl } from "@/utils/imageUtils.ts";
 
 // 摄影师数据
 export interface PhotographerData {

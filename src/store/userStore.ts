@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { getImageUrl } from '../utils/imageUtils';
+import { getImageUrl } from '../utils/imageUtils.ts';
 
 export interface User {
   id: string;
