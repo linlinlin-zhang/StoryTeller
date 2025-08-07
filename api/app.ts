@@ -35,8 +35,7 @@ connectDB();
 // 初始化模型
 initializeModels().catch(console.error);
 
-// 连接Redis
-redis.connect().catch(console.error);
+// Redis使用lazyConnect，会在需要时自动连接
 
 // 安全中间件
 app.use(helmet());

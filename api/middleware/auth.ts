@@ -21,6 +21,18 @@ declare global {
   }
 }
 
+// 导出AuthenticatedRequest类型
+export interface AuthenticatedRequest extends Request {
+  user: {
+    id: string;
+    email: string;
+    username: string;
+    role: UserRole;
+    isVerified: boolean;
+    isActive: boolean;
+  };
+}
+
 /**
  * JWT认证中间件
  * 验证请求头中的JWT令牌并设置用户信息

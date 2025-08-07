@@ -1,20 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { UserRole } from '../models/User';
 
-// 扩展Request接口以包含用户信息
-declare global {
-  namespace Express {
-    interface Request {
-      user?: {
-        id: string;
-        email: string;
-        username: string;
-        role: UserRole;
-      };
-    }
-  }
-}
-
 /**
  * 管理员权限验证中间件
  * 确保只有管理员角色的用户可以访问特定路由

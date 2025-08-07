@@ -1,13 +1,16 @@
 import { Request, Response } from 'express';
 import { User, Photo, Follow } from '../models/index.js';
-import { CacheService } from '../config/redis.js';
+import { cacheService } from '../config/redis';
 import mongoose from 'mongoose';
 
 interface AuthenticatedRequest extends Request {
   user?: {
-    _id: string;
-    username: string;
+    id: string;
     email: string;
+    username: string;
+    role: any;
+    isVerified: boolean;
+    isActive: boolean;
   };
 }
 
@@ -25,7 +28,7 @@ export const getUserProfile = async (req: Request, res: Response) => {
 
     // 尝试从缓存获取
     const cacheKey = `user:profile:${userId}`;
-    const cachedProfile = await CacheService.get(cacheKey);
+    const cachedProfile = await cacheService.get(cacheKey);
     
     if (cachedProfile) {
       return res.json({
@@ -63,7 +66,7 @@ export const getUserProfile = async (req: Request, res: Response) => {
     };
 
     // 缓存用户资料（10分钟）
-    await CacheService.set(cacheKey, JSON.stringify(profile), 600);
+    await cacheService.set(cacheKey, JSON.stringify(profile), 600);
 
     res.json({
       success: true,
@@ -82,7 +85,7 @@ export const getUserProfile = async (req: Request, res: Response) => {
 export const updateUserProfile = async (req: AuthenticatedRequest, res: Response) => {
   try {
     const { bio, location, website } = req.body;
-    const userId = req.user!._id;
+    const userId = req.user!.id;
 
     const updateData: any = {};
     if (bio !== undefined) updateData.bio = bio;
@@ -104,8 +107,8 @@ export const updateUserProfile = async (req: AuthenticatedRequest, res: Response
     }
 
     // 清除相关缓存
-    await CacheService.del(`user:profile:${userId}`);
-    await CacheService.del(`user:${userId}`);
+    await cacheService.del(`user:profile:${userId}`);
+    await cacheService.del(`user:${userId}`);
 
     res.json({
       success: true,
@@ -152,7 +155,7 @@ export const searchUsers = async (req: Request, res: Response) => {
 
     // 尝试从缓存获取
     const cacheKey = `search:users:${query}:${page}:${limit}`;
-    const cachedResult = await CacheService.get(cacheKey);
+    const cachedResult = await cacheService.get(cacheKey);
     
     if (cachedResult) {
       return res.json({
@@ -200,7 +203,7 @@ export const searchUsers = async (req: Request, res: Response) => {
     };
 
     // 缓存搜索结果（5分钟）
-    await CacheService.set(cacheKey, JSON.stringify(result), 300);
+    await cacheService.set(cacheKey, JSON.stringify(result), 300);
 
     res.json({
       success: true,
@@ -219,12 +222,12 @@ export const searchUsers = async (req: Request, res: Response) => {
 export const getRecommendedUsers = async (req: AuthenticatedRequest, res: Response) => {
   try {
     const { limit = 10 } = req.query;
-    const userId = req.user!._id;
+    const userId = req.user!.id;
     const limitNum = parseInt(limit as string);
 
     // 尝试从缓存获取
     const cacheKey = `user:${userId}:recommended:${limit}`;
-    const cachedResult = await CacheService.get(cacheKey);
+    const cachedResult = await cacheService.get(cacheKey);
     
     if (cachedResult) {
       return res.json({
@@ -323,7 +326,7 @@ export const getRecommendedUsers = async (req: AuthenticatedRequest, res: Respon
     };
 
     // 缓存推荐结果（30分钟）
-    await CacheService.set(cacheKey, JSON.stringify(result), 1800);
+    await cacheService.set(cacheKey, JSON.stringify(result), 1800);
 
     res.json({
       success: true,
@@ -365,7 +368,7 @@ export const getUserStats = async (req: Request, res: Response) => {
 
     // 尝试从缓存获取
     const cacheKey = `user:${userId}:stats:${period}`;
-    const cachedStats = await CacheService.get(cacheKey);
+    const cachedStats = await cacheService.get(cacheKey);
     
     if (cachedStats) {
       return res.json({
@@ -420,7 +423,7 @@ export const getUserStats = async (req: Request, res: Response) => {
     };
 
     // 缓存统计数据（1小时）
-    await CacheService.set(cacheKey, JSON.stringify(stats), 3600);
+    await cacheService.set(cacheKey, JSON.stringify(stats), 3600);
 
     res.json({
       success: true,
@@ -454,7 +457,7 @@ export const getPopularUsers = async (req: Request, res: Response) => {
 
     // 尝试从缓存获取
     const cacheKey = `users:popular:${limit}:${period}`;
-    const cachedResult = await CacheService.get(cacheKey);
+    const cachedResult = await cacheService.get(cacheKey);
     
     if (cachedResult) {
       return res.json({
@@ -549,7 +552,7 @@ export const getPopularUsers = async (req: Request, res: Response) => {
     };
 
     // 缓存热门用户（1小时）
-    await CacheService.set(cacheKey, JSON.stringify(result), 3600);
+    await cacheService.set(cacheKey, JSON.stringify(result), 3600);
 
     res.json({
       success: true,

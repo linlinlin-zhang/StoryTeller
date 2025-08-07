@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { User } from '../models';
 import { JWTUtils } from '../utils/jwt';
 import { cacheService } from '../config/redis';
-import { revokeToken } from '../middleware/auth';
+import { revokeToken, AuthenticatedRequest } from '../middleware/auth';
 
 /**
  * 用户注册
@@ -173,7 +173,7 @@ export const login = async (req: Request, res: Response): Promise<void> => {
 /**
  * 用户注销
  */
-export const logout = async (req: Request, res: Response): Promise<void> => {
+export const logout = async (req: AuthenticatedRequest, res: Response): Promise<void> => {
   try {
     const authHeader = req.headers.authorization;
     const token = authHeader && authHeader.split(' ')[1];
@@ -242,7 +242,7 @@ export const refreshToken = async (req: Request, res: Response): Promise<void> =
 /**
  * 获取当前用户信息
  */
-export const getCurrentUser = async (req: Request, res: Response): Promise<void> => {
+export const getCurrentUser = async (req: AuthenticatedRequest, res: Response): Promise<void> => {
   try {
     if (!req.user) {
       res.status(401).json({
@@ -295,7 +295,7 @@ export const getCurrentUser = async (req: Request, res: Response): Promise<void>
 /**
  * 更改密码
  */
-export const changePassword = async (req: Request, res: Response): Promise<void> => {
+export const changePassword = async (req: AuthenticatedRequest, res: Response): Promise<void> => {
   try {
     if (!req.user) {
       res.status(401).json({

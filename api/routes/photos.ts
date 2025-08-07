@@ -36,8 +36,8 @@ const router = Router();
 // 获取照片列表（支持分页、筛选、搜索）
 router.get('/',
   createValidationMiddleware([
-    validatePagination,
-    validateSearch
+    ...validatePagination,
+    ...validateSearch
   ]),
   optionalAuth,
   getPhotos
@@ -54,7 +54,7 @@ router.get('/:id',
 router.get('/user/:userId',
   createValidationMiddleware([
     validateObjectId('userId'),
-    validatePagination
+    ...validatePagination
   ]),
   getUserPhotos
 );
@@ -73,7 +73,7 @@ router.post('/',
   handleUploadError,
   validateImageDimensions(100, 100, 8000, 8000),
   processImageUpload,
-  createValidationMiddleware([validatePhotoUpload]),
+  createValidationMiddleware([...validatePhotoUpload]),
   createPhoto
 );
 
@@ -82,7 +82,7 @@ router.put('/:id',
   authenticateToken,
   createValidationMiddleware([
     validateObjectId('id'),
-    validatePhotoUpdate
+    ...validatePhotoUpdate
   ]),
   updatePhoto
 );

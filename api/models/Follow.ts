@@ -1,4 +1,4 @@
-import mongoose, { Document, Schema } from 'mongoose';
+import mongoose, { Document, Schema, Model } from 'mongoose';
 
 // 关注接口定义
 export interface IFollow extends Document {
@@ -7,6 +7,15 @@ export interface IFollow extends Document {
   following: mongoose.Types.ObjectId; // 被关注者
   createdAt: Date;
   updatedAt: Date;
+}
+
+// 静态方法接口
+export interface IFollowModel extends Model<IFollow> {
+  toggleFollow(followerId: mongoose.Types.ObjectId, followingId: mongoose.Types.ObjectId): Promise<{ following: boolean; follow: IFollow | null }>;
+  isFollowing(followerId: mongoose.Types.ObjectId, followingId: mongoose.Types.ObjectId): Promise<boolean>;
+  getFollowing(userId: mongoose.Types.ObjectId, page?: number, limit?: number): Promise<any>;
+  getFollowers(userId: mongoose.Types.ObjectId, page?: number, limit?: number): Promise<any>;
+  getMutualFollows(userId: mongoose.Types.ObjectId, page?: number, limit?: number): Promise<any>;
 }
 
 // 关注Schema定义
@@ -249,4 +258,4 @@ FollowSchema.statics.getMutualFollows = async function(
   }
 };
 
-export default mongoose.model<IFollow>('Follow', FollowSchema);
+export default mongoose.model<IFollow, IFollowModel>('Follow', FollowSchema);

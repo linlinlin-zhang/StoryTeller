@@ -1,4 +1,4 @@
-import mongoose, { Document, Schema } from 'mongoose';
+import mongoose, { Document, Schema, Model } from 'mongoose';
 
 // 点赞接口定义
 export interface ILike extends Document {
@@ -10,6 +10,13 @@ export interface ILike extends Document {
   comment?: mongoose.Types.ObjectId; // 如果是评论点赞，记录评论ID
   createdAt: Date;
   updatedAt: Date;
+}
+
+// 静态方法接口
+export interface ILikeModel extends Model<ILike> {
+  toggleLike(userId: mongoose.Types.ObjectId, targetType: 'Photo' | 'Comment', targetId: mongoose.Types.ObjectId, photoId?: mongoose.Types.ObjectId): Promise<{ liked: boolean; like: ILike | null }>;
+  isLikedByUser(userId: mongoose.Types.ObjectId, targetType: 'Photo' | 'Comment', targetId: mongoose.Types.ObjectId): Promise<boolean>;
+  getUserLikes(userId: mongoose.Types.ObjectId, targetType?: 'Photo' | 'Comment', page?: number, limit?: number): Promise<any>;
 }
 
 // 点赞Schema定义
@@ -214,4 +221,4 @@ LikeSchema.statics.getUserLikes = async function(
   }
 };
 
-export default mongoose.model<ILike>('Like', LikeSchema);
+export default mongoose.model<ILike, ILikeModel>('Like', LikeSchema);

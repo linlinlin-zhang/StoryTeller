@@ -51,7 +51,7 @@ router.get('/likes/status/:targetType/:targetId',
 router.get('/likes/user/:userId',
   createValidationMiddleware([
     validateObjectId('userId'),
-    validatePagination
+    ...validatePagination
   ]),
   getUserLikes
 );
@@ -61,7 +61,7 @@ router.get('/likes/user/:userId',
 // 创建评论（需要认证）
 router.post('/comments',
   authenticateToken,
-  createValidationMiddleware([validateComment]),
+  createValidationMiddleware([...validateComment]),
   createComment
 );
 
@@ -69,7 +69,7 @@ router.post('/comments',
 router.get('/comments/photo/:photoId',
   createValidationMiddleware([
     validateObjectId('photoId'),
-    validatePagination
+    ...validatePagination
   ]),
   getPhotoComments
 );
@@ -78,7 +78,7 @@ router.get('/comments/photo/:photoId',
 router.get('/comments/:commentId/replies',
   createValidationMiddleware([
     validateObjectId('commentId'),
-    validatePagination
+    ...validatePagination
   ]),
   getCommentReplies
 );
@@ -88,7 +88,7 @@ router.put('/comments/:commentId',
   authenticateToken,
   createValidationMiddleware([
     validateObjectId('commentId'),
-    validateComment
+    ...validateComment
   ]),
   updateComment
 );
@@ -119,7 +119,7 @@ router.get('/follows/status/:targetUserId',
 router.get('/follows/following/:userId',
   createValidationMiddleware([
     validateObjectId('userId'),
-    validatePagination
+    ...validatePagination
   ]),
   getFollowing
 );
@@ -128,7 +128,7 @@ router.get('/follows/following/:userId',
 router.get('/follows/followers/:userId',
   createValidationMiddleware([
     validateObjectId('userId'),
-    validatePagination
+    ...validatePagination
   ]),
   getFollowers
 );
@@ -136,7 +136,7 @@ router.get('/follows/followers/:userId',
 // 获取互相关注列表（需要认证）
 router.get('/follows/mutual',
   authenticateToken,
-  createValidationMiddleware([validatePagination]),
+  createValidationMiddleware([...validatePagination]),
   getMutualFollows
 );
 

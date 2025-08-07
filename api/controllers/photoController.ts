@@ -1,14 +1,17 @@
 import { Request, Response } from 'express';
 import { Photo, User } from '../models/index.js';
-import { CacheService } from '../config/redis.js';
-import { OSSService } from '../config/oss.js';
+import { cacheService } from '../config/redis';
+import { ossService } from '../config/oss.js';
 import mongoose from 'mongoose';
 
 interface AuthenticatedRequest extends Request {
   user?: {
-    _id: string;
-    username: string;
+    id: string;
     email: string;
+    username: string;
+    role: any;
+    isVerified: boolean;
+    isActive: boolean;
   };
 }
 
@@ -49,7 +52,7 @@ export const createPhoto = async (req: AuthenticatedRequest, res: Response) => {
       isPublic,
       allowComments,
       allowDownload,
-      author: req.user!._id,
+      author: req.user!.id,
       cameraInfo: cameraInfo ? JSON.parse(cameraInfo) : undefined,
       shootingSettings: shootingSettings ? JSON.parse(shootingSettings) : undefined,
       location: location ? JSON.parse(location) : undefined
@@ -62,9 +65,9 @@ export const createPhoto = async (req: AuthenticatedRequest, res: Response) => {
     await photo.populate('author', 'username avatar');
 
     // 清除相关缓存
-    await CacheService.del(`user:${req.user!._id}:photos`);
-    await CacheService.del('photos:public');
-    await CacheService.del(`photos:category:${category}`);
+    await cacheService.del(`user:${req.user!.id}:photos`);
+    await cacheService.del('photos:public');
+    await cacheService.del(`photos:category:${category}`);
 
     res.status(201).json({
       success: true,
@@ -128,7 +131,7 @@ export const getPhotos = async (req: Request, res: Response) => {
 
     // 尝试从缓存获取
     const cacheKey = `photos:${JSON.stringify(query)}:${page}:${limit}:${sortBy}:${sortOrder}`;
-    const cachedResult = await CacheService.get(cacheKey);
+    const cachedResult = await cacheService.get(cacheKey);
     
     if (cachedResult) {
       return res.json({
@@ -159,7 +162,7 @@ export const getPhotos = async (req: Request, res: Response) => {
     };
 
     // 缓存结果（5分钟）
-    await CacheService.set(cacheKey, JSON.stringify(result), 300);
+    await cacheService.set(cacheKey, JSON.stringify(result), 300);
 
     res.json({
       success: true,
@@ -188,7 +191,7 @@ export const getPhotoById = async (req: Request, res: Response) => {
 
     // 尝试从缓存获取
     const cacheKey = `photo:${id}`;
-    const cachedPhoto = await CacheService.get(cacheKey);
+    const cachedPhoto = await cacheService.get(cacheKey);
     
     if (cachedPhoto) {
       const photo = JSON.parse(cachedPhoto);
@@ -225,11 +228,11 @@ export const getPhotoById = async (req: Request, res: Response) => {
     }
 
     // 增加浏览数
-    await Photo.findByIdAndUpdate(id, { $inc: { viewCount: 1 } });
-    photo.viewCount += 1;
+    await Photo.findByIdAndUpdate(id, { $inc: { viewsCount: 1 } });
+    photo.viewsCount += 1;
 
     // 缓存照片信息（10分钟）
-    await CacheService.set(cacheKey, JSON.stringify(photo), 600);
+    await cacheService.set(cacheKey, JSON.stringify(photo), 600);
 
     res.json({
       success: true,
@@ -274,7 +277,7 @@ export const updatePhoto = async (req: AuthenticatedRequest, res: Response) => {
     }
 
     // 检查权限
-    if (photo.author.toString() !== req.user!._id) {
+    if (photo.author.toString() !== req.user!.id) {
       return res.status(403).json({
         success: false,
         message: '无权限修改此照片'
@@ -301,11 +304,11 @@ export const updatePhoto = async (req: AuthenticatedRequest, res: Response) => {
     ).populate('author', 'username avatar');
 
     // 清除相关缓存
-    await CacheService.del(`photo:${id}`);
-    await CacheService.del(`user:${req.user!._id}:photos`);
-    await CacheService.del('photos:public');
+    await cacheService.del(`photo:${id}`);
+    await cacheService.del(`user:${req.user!.id}:photos`);
+    await cacheService.del('photos:public');
     if (category) {
-      await CacheService.del(`photos:category:${category}`);
+      await cacheService.del(`photos:category:${category}`);
     }
 
     res.json({
@@ -343,7 +346,7 @@ export const deletePhoto = async (req: AuthenticatedRequest, res: Response) => {
     }
 
     // 检查权限
-    if (photo.author.toString() !== req.user!._id) {
+    if (photo.author.toString() !== req.user!.id) {
       return res.status(403).json({
         success: false,
         message: '无权限删除此照片'
@@ -356,10 +359,10 @@ export const deletePhoto = async (req: AuthenticatedRequest, res: Response) => {
       const thumbnailFileName = photo.thumbnailUrl.split('/').pop();
       
       if (imageFileName) {
-        await OSSService.deleteFile(imageFileName);
+        await ossService.deleteFile(imageFileName);
       }
       if (thumbnailFileName) {
-        await OSSService.deleteFile(thumbnailFileName);
+        await ossService.deleteFile(thumbnailFileName);
       }
     } catch (ossError) {
       console.error('删除OSS文件失败:', ossError);
@@ -370,10 +373,10 @@ export const deletePhoto = async (req: AuthenticatedRequest, res: Response) => {
     await Photo.findByIdAndDelete(id);
 
     // 清除相关缓存
-    await CacheService.del(`photo:${id}`);
-    await CacheService.del(`user:${req.user!._id}:photos`);
-    await CacheService.del('photos:public');
-    await CacheService.del(`photos:category:${photo.category}`);
+    await cacheService.del(`photo:${id}`);
+    await cacheService.del(`user:${req.user!.id}:photos`);
+    await cacheService.del('photos:public');
+    await cacheService.del(`photos:category:${photo.category}`);
 
     res.json({
       success: true,
@@ -422,7 +425,7 @@ export const getUserPhotos = async (req: Request, res: Response) => {
 
     // 尝试从缓存获取
     const cacheKey = `user:${userId}:photos:${page}:${limit}:${sortBy}:${sortOrder}`;
-    const cachedResult = await CacheService.get(cacheKey);
+    const cachedResult = await cacheService.get(cacheKey);
     
     if (cachedResult) {
       return res.json({
@@ -461,7 +464,7 @@ export const getUserPhotos = async (req: Request, res: Response) => {
     };
 
     // 缓存结果（5分钟）
-    await CacheService.set(cacheKey, JSON.stringify(result), 300);
+    await cacheService.set(cacheKey, JSON.stringify(result), 300);
 
     res.json({
       success: true,
@@ -481,7 +484,7 @@ export const getCategories = async (req: Request, res: Response) => {
   try {
     // 尝试从缓存获取
     const cacheKey = 'photo:categories';
-    const cachedCategories = await CacheService.get(cacheKey);
+    const cachedCategories = await cacheService.get(cacheKey);
     
     if (cachedCategories) {
       return res.json({
@@ -510,7 +513,7 @@ export const getCategories = async (req: Request, res: Response) => {
     ]);
 
     // 缓存结果（30分钟）
-    await CacheService.set(cacheKey, JSON.stringify(categories), 1800);
+    await cacheService.set(cacheKey, JSON.stringify(categories), 1800);
 
     res.json({
       success: true,
@@ -533,7 +536,7 @@ export const getPopularTags = async (req: Request, res: Response) => {
 
     // 尝试从缓存获取
     const cacheKey = `photo:tags:popular:${limit}`;
-    const cachedTags = await CacheService.get(cacheKey);
+    const cachedTags = await cacheService.get(cacheKey);
     
     if (cachedTags) {
       return res.json({
@@ -564,7 +567,7 @@ export const getPopularTags = async (req: Request, res: Response) => {
     ]);
 
     // 缓存结果（1小时）
-    await CacheService.set(cacheKey, JSON.stringify(tags), 3600);
+    await cacheService.set(cacheKey, JSON.stringify(tags), 3600);
 
     res.json({
       success: true,
@@ -619,7 +622,7 @@ export const downloadPhoto = async (req: AuthenticatedRequest, res: Response) =>
       });
     }
 
-    const signedUrl = await OSSService.getSignedUrl(fileName, 3600); // 1小时有效期
+    const signedUrl = await ossService.getSignedUrl(fileName, 3600); // 1小时有效期
 
     res.json({
       success: true,

@@ -31,8 +31,8 @@ router.get('/:userId',
 // 搜索用户
 router.get('/search/query',
   createValidationMiddleware([
-    validateSearch,
-    validatePagination
+    ...validateSearch,
+    ...validatePagination
   ]),
   searchUsers
 );
@@ -52,7 +52,7 @@ router.get('/popular/list',
 // 更新用户资料
 router.put('/profile',
   authenticateToken,
-  createValidationMiddleware([validateUserUpdate]),
+  createValidationMiddleware([...validateUserUpdate]),
   updateUserProfile
 );
 

@@ -6,6 +6,7 @@ export interface JWTPayload {
   userId: string;
   email: string;
   username: string;
+  role?: string;
   iat?: number;
   exp?: number;
 }
@@ -24,19 +25,21 @@ export class JWTUtils {
     userId: string | Types.ObjectId;
     email: string;
     username: string;
+    role?: string;
   }): string {
     try {
       const tokenPayload: JWTPayload = {
         userId: payload.userId.toString(),
         email: payload.email,
-        username: payload.username
+        username: payload.username,
+        role: payload.role
       };
 
       return jwt.sign(tokenPayload, this.SECRET, {
         expiresIn: this.EXPIRE_TIME,
         issuer: 'photography-platform',
         audience: 'photography-platform-users'
-      });
+      } as jwt.SignOptions);
     } catch (error) {
       throw new Error('Failed to generate JWT token');
     }
@@ -84,7 +87,8 @@ export class JWTUtils {
       return this.generateToken({
         userId: decoded.userId,
         email: decoded.email,
-        username: decoded.username
+        username: decoded.username,
+        role: decoded.role
       });
     } catch (error) {
       throw new Error('Failed to refresh token');

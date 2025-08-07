@@ -1,13 +1,16 @@
 import { Request, Response } from 'express';
 import { Photo, Comment, Like, Follow, User } from '../models/index.js';
-import { CacheService } from '../config/redis.js';
+import { cacheService } from '../config/redis';
 import mongoose from 'mongoose';
 
 interface AuthenticatedRequest extends Request {
   user?: {
-    _id: string;
-    username: string;
+    id: string;
     email: string;
+    username: string;
+    role: any;
+    isVerified: boolean;
+    isActive: boolean;
   };
 }
 
@@ -17,7 +20,7 @@ interface AuthenticatedRequest extends Request {
 export const toggleLike = async (req: AuthenticatedRequest, res: Response) => {
   try {
     const { targetType, targetId } = req.body;
-    const userId = req.user!._id;
+    const userId = req.user!.id;
 
     if (!['photo', 'comment'].includes(targetType)) {
       return res.status(400).json({
@@ -34,8 +37,12 @@ export const toggleLike = async (req: AuthenticatedRequest, res: Response) => {
     }
 
     // 检查目标是否存在
-    const Model = targetType === 'photo' ? Photo : Comment;
-    const target = await Model.findById(targetId);
+    let target;
+    if (targetType === 'photo') {
+      target = await Photo.findById(targetId);
+    } else {
+      target = await Comment.findById(targetId);
+    }
     if (!target) {
       return res.status(404).json({
         success: false,
@@ -43,18 +50,17 @@ export const toggleLike = async (req: AuthenticatedRequest, res: Response) => {
       });
     }
 
-    const result = await Like.toggleLike(userId, targetType, targetId);
+    const result = await Like.toggleLike(new mongoose.Types.ObjectId(userId), targetType as 'Photo' | 'Comment', new mongoose.Types.ObjectId(targetId));
 
     // 清除相关缓存
-    await CacheService.del(`${targetType}:${targetId}`);
-    await CacheService.del(`user:${userId}:likes`);
+    await cacheService.del(`${targetType}:${targetId}`);
+    await cacheService.del(`user:${userId}:likes`);
 
     res.json({
       success: true,
-      message: result.isLiked ? '点赞成功' : '取消点赞成功',
+      message: result.liked ? '点赞成功' : '取消点赞成功',
       data: {
-        isLiked: result.isLiked,
-        likeCount: result.likeCount
+        isLiked: result.liked
       }
     });
   } catch (error) {
@@ -70,7 +76,7 @@ export const toggleLike = async (req: AuthenticatedRequest, res: Response) => {
 export const checkLikeStatus = async (req: AuthenticatedRequest, res: Response) => {
   try {
     const { targetType, targetId } = req.params;
-    const userId = req.user!._id;
+    const userId = req.user!.id;
 
     if (!['photo', 'comment'].includes(targetType)) {
       return res.status(400).json({
@@ -86,7 +92,7 @@ export const checkLikeStatus = async (req: AuthenticatedRequest, res: Response) 
       });
     }
 
-    const isLiked = await Like.isLikedByUser(userId, targetType, targetId);
+    const isLiked = await Like.isLikedByUser(new mongoose.Types.ObjectId(userId), targetType as 'Photo' | 'Comment', new mongoose.Types.ObjectId(targetId));
 
     res.json({
       success: true,
@@ -124,7 +130,7 @@ export const getUserLikes = async (req: Request, res: Response) => {
 
     // 尝试从缓存获取
     const cacheKey = `user:${userId}:likes:${page}:${limit}:${targetType || 'all'}`;
-    const cachedResult = await CacheService.get(cacheKey);
+    const cachedResult = await cacheService.get(cacheKey);
     
     if (cachedResult) {
       return res.json({
@@ -133,10 +139,10 @@ export const getUserLikes = async (req: Request, res: Response) => {
       });
     }
 
-    const likes = await Like.getUserLikes(userId, pageNum, limitNum, targetType as string);
+    const likes = await Like.getUserLikes(new mongoose.Types.ObjectId(userId), targetType as 'Photo' | 'Comment', pageNum, limitNum);
 
     // 缓存结果（5分钟）
-    await CacheService.set(cacheKey, JSON.stringify(likes), 300);
+    await cacheService.set(cacheKey, JSON.stringify(likes), 300);
 
     res.json({
       success: true,
@@ -157,7 +163,7 @@ export const getUserLikes = async (req: Request, res: Response) => {
 export const createComment = async (req: AuthenticatedRequest, res: Response) => {
   try {
     const { photoId, content, parentId } = req.body;
-    const userId = req.user!._id;
+    const userId = req.user!.id;
 
     if (!mongoose.Types.ObjectId.isValid(photoId)) {
       return res.status(400).json({
@@ -221,10 +227,10 @@ export const createComment = async (req: AuthenticatedRequest, res: Response) =>
     await comment.populate('author', 'username avatar');
 
     // 清除相关缓存
-    await CacheService.del(`photo:${photoId}:comments`);
-    await CacheService.del(`photo:${photoId}`);
+    await cacheService.del(`photo:${photoId}:comments`);
+    await cacheService.del(`photo:${photoId}`);
     if (parentId) {
-      await CacheService.del(`comment:${parentId}:replies`);
+      await cacheService.del(`comment:${parentId}:replies`);
     }
 
     res.status(201).json({
@@ -264,7 +270,7 @@ export const getPhotoComments = async (req: Request, res: Response) => {
 
     // 尝试从缓存获取
     const cacheKey = `photo:${photoId}:comments:${page}:${limit}:${sortBy}:${sortOrder}`;
-    const cachedResult = await CacheService.get(cacheKey);
+    const cachedResult = await cacheService.get(cacheKey);
     
     if (cachedResult) {
       return res.json({
@@ -304,7 +310,7 @@ export const getPhotoComments = async (req: Request, res: Response) => {
     };
 
     // 缓存结果（5分钟）
-    await CacheService.set(cacheKey, JSON.stringify(result), 300);
+    await cacheService.set(cacheKey, JSON.stringify(result), 300);
 
     res.json({
       success: true,
@@ -338,7 +344,7 @@ export const getCommentReplies = async (req: Request, res: Response) => {
 
     // 尝试从缓存获取
     const cacheKey = `comment:${commentId}:replies:${page}:${limit}`;
-    const cachedResult = await CacheService.get(cacheKey);
+    const cachedResult = await cacheService.get(cacheKey);
     
     if (cachedResult) {
       return res.json({
@@ -368,7 +374,7 @@ export const getCommentReplies = async (req: Request, res: Response) => {
     };
 
     // 缓存结果（5分钟）
-    await CacheService.set(cacheKey, JSON.stringify(result), 300);
+    await cacheService.set(cacheKey, JSON.stringify(result), 300);
 
     res.json({
       success: true,
@@ -388,7 +394,7 @@ export const updateComment = async (req: AuthenticatedRequest, res: Response) =>
   try {
     const { commentId } = req.params;
     const { content } = req.body;
-    const userId = req.user!._id;
+    const userId = req.user!.id;
 
     if (!mongoose.Types.ObjectId.isValid(commentId)) {
       return res.status(400).json({
@@ -430,9 +436,9 @@ export const updateComment = async (req: AuthenticatedRequest, res: Response) =>
     await comment.populate('author', 'username avatar');
 
     // 清除相关缓存
-    await CacheService.del(`photo:${comment.photo}:comments`);
-    if (comment.parent) {
-      await CacheService.del(`comment:${comment.parent}:replies`);
+    await cacheService.del(`photo:${comment.photo}:comments`);
+    if (comment.parentComment) {
+      await cacheService.del(`comment:${comment.parentComment}:replies`);
     }
 
     res.json({
@@ -453,7 +459,7 @@ export const updateComment = async (req: AuthenticatedRequest, res: Response) =>
 export const deleteComment = async (req: AuthenticatedRequest, res: Response) => {
   try {
     const { commentId } = req.params;
-    const userId = req.user!._id;
+    const userId = req.user!.id;
 
     if (!mongoose.Types.ObjectId.isValid(commentId)) {
       return res.status(400).json({
@@ -485,9 +491,9 @@ export const deleteComment = async (req: AuthenticatedRequest, res: Response) =>
     await comment.save();
 
     // 清除相关缓存
-    await CacheService.del(`photo:${comment.photo}:comments`);
-    if (comment.parent) {
-      await CacheService.del(`comment:${comment.parent}:replies`);
+    await cacheService.del(`photo:${comment.photo}:comments`);
+    if (comment.parentComment) {
+      await cacheService.del(`comment:${comment.parentComment}:replies`);
     }
 
     res.json({
@@ -509,7 +515,7 @@ export const deleteComment = async (req: AuthenticatedRequest, res: Response) =>
 export const toggleFollow = async (req: AuthenticatedRequest, res: Response) => {
   try {
     const { targetUserId } = req.body;
-    const userId = req.user!._id;
+    const userId = req.user!.id;
 
     if (!mongoose.Types.ObjectId.isValid(targetUserId)) {
       return res.status(400).json({
@@ -535,19 +541,17 @@ export const toggleFollow = async (req: AuthenticatedRequest, res: Response) => 
       });
     }
 
-    const result = await Follow.toggleFollow(userId, targetUserId);
+    const result = await Follow.toggleFollow(new mongoose.Types.ObjectId(userId), new mongoose.Types.ObjectId(targetUserId));
 
     // 清除相关缓存
-    await CacheService.del(`user:${userId}:following`);
-    await CacheService.del(`user:${targetUserId}:followers`);
+    await cacheService.del(`user:${userId}:following`);
+    await cacheService.del(`user:${targetUserId}:followers`);
 
     res.json({
       success: true,
-      message: result.isFollowing ? '关注成功' : '取消关注成功',
+      message: result.following ? '关注成功' : '取消关注成功',
       data: {
-        isFollowing: result.isFollowing,
-        followerCount: result.followerCount,
-        followingCount: result.followingCount
+        isFollowing: result.following
       }
     });
   } catch (error) {
@@ -563,7 +567,7 @@ export const toggleFollow = async (req: AuthenticatedRequest, res: Response) => 
 export const checkFollowStatus = async (req: AuthenticatedRequest, res: Response) => {
   try {
     const { targetUserId } = req.params;
-    const userId = req.user!._id;
+    const userId = req.user!.id;
 
     if (!mongoose.Types.ObjectId.isValid(targetUserId)) {
       return res.status(400).json({
@@ -572,7 +576,7 @@ export const checkFollowStatus = async (req: AuthenticatedRequest, res: Response
       });
     }
 
-    const isFollowing = await Follow.isFollowing(userId, targetUserId);
+    const isFollowing = await Follow.isFollowing(new mongoose.Types.ObjectId(userId), new mongoose.Types.ObjectId(targetUserId));
 
     res.json({
       success: true,
@@ -605,7 +609,7 @@ export const getFollowing = async (req: Request, res: Response) => {
 
     // 尝试从缓存获取
     const cacheKey = `user:${userId}:following:${page}:${limit}`;
-    const cachedResult = await CacheService.get(cacheKey);
+    const cachedResult = await cacheService.get(cacheKey);
     
     if (cachedResult) {
       return res.json({
@@ -614,10 +618,10 @@ export const getFollowing = async (req: Request, res: Response) => {
       });
     }
 
-    const result = await Follow.getFollowing(userId, pageNum, limitNum);
+    const result = await Follow.getFollowing(new mongoose.Types.ObjectId(userId), pageNum, limitNum);
 
     // 缓存结果（5分钟）
-    await CacheService.set(cacheKey, JSON.stringify(result), 300);
+    await cacheService.set(cacheKey, JSON.stringify(result), 300);
 
     res.json({
       success: true,
@@ -650,7 +654,7 @@ export const getFollowers = async (req: Request, res: Response) => {
 
     // 尝试从缓存获取
     const cacheKey = `user:${userId}:followers:${page}:${limit}`;
-    const cachedResult = await CacheService.get(cacheKey);
+    const cachedResult = await cacheService.get(cacheKey);
     
     if (cachedResult) {
       return res.json({
@@ -659,10 +663,10 @@ export const getFollowers = async (req: Request, res: Response) => {
       });
     }
 
-    const result = await Follow.getFollowers(userId, pageNum, limitNum);
+    const result = await Follow.getFollowers(new mongoose.Types.ObjectId(userId), pageNum, limitNum);
 
     // 缓存结果（5分钟）
-    await CacheService.set(cacheKey, JSON.stringify(result), 300);
+    await cacheService.set(cacheKey, JSON.stringify(result), 300);
 
     res.json({
       success: true,
@@ -681,14 +685,14 @@ export const getFollowers = async (req: Request, res: Response) => {
 export const getMutualFollows = async (req: AuthenticatedRequest, res: Response) => {
   try {
     const { page = 1, limit = 20 } = req.query;
-    const userId = req.user!._id;
+    const userId = req.user!.id;
 
     const pageNum = parseInt(page as string);
     const limitNum = parseInt(limit as string);
 
     // 尝试从缓存获取
     const cacheKey = `user:${userId}:mutual:${page}:${limit}`;
-    const cachedResult = await CacheService.get(cacheKey);
+    const cachedResult = await cacheService.get(cacheKey);
     
     if (cachedResult) {
       return res.json({
@@ -697,10 +701,10 @@ export const getMutualFollows = async (req: AuthenticatedRequest, res: Response)
       });
     }
 
-    const result = await Follow.getMutualFollows(userId, pageNum, limitNum);
+    const result = await Follow.getMutualFollows(new mongoose.Types.ObjectId(userId), pageNum, limitNum);
 
     // 缓存结果（5分钟）
-    await CacheService.set(cacheKey, JSON.stringify(result), 300);
+    await cacheService.set(cacheKey, JSON.stringify(result), 300);
 
     res.json({
       success: true,

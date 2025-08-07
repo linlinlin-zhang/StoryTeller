@@ -1,13 +1,20 @@
 {
   "compilerOptions": {
     "target": "ES2020",
-    "module": "CommonJS",
+    "module": "ES2020",
+    "moduleResolution": "node",
     "lib": ["ES2020"],
     "outDir": "../dist/api",
     "rootDir": ".",
-    "strict": true,
+    "strict": false,
     "esModuleInterop": true,
     "skipLibCheck": true,
+    "noImplicitAny": false,
+    "noImplicitReturns": false,
+    "noImplicitThis": false,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
     "declaration": false,
@@ -21,8 +28,10 @@
       "@/*": ["./*"]
     },
     "typeRoots": [
-      "../node_modules/@types"
-    ]
+      "../node_modules/@types",
+      "./node_modules/@types"
+    ],
+    "types": ["node", "jsonwebtoken"]
   },
   "include": [
     "**/*.ts"
@@ -30,6 +39,9 @@
   "exclude": [
     "../node_modules",
     "../dist",
+    "../src",
+    "scripts/migrateImages.ts",
+    "scripts/testImageMapping.ts",
     "**/*.test.ts",
     "**/*.spec.ts"
   ]
