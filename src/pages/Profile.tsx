@@ -4,6 +4,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import PhotoCard from "@/components/PhotoCard";
 import { getPhotosByPhotographer } from "@/data/mockData";
+import { getImageUrl } from "@/utils/imageHelper";
 import { 
   User, 
   Camera, 
@@ -34,7 +35,7 @@ export default function Profile() {
     specialty: "风光摄影",
     bio: "专注于自然风光和人文摄影，擅长捕捉光影的瞬间变化。",
     joinDate: "2022年3月",
-    avatar: "/images/微信图片_20240723091716.png"
+    avatar: getImageUrl("/images/微信图片_20240723091716.png")
   });
   const [editForm, setEditForm] = useState(userInfo);
 

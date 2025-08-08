@@ -1,6 +1,6 @@
 import { PhotoData } from "@/components/PhotoCard";
 import { importAllPhotos, getPhotoStats } from "@/utils/photoImporter";
-import { getImageUrl } from "@/utils/imageUtils.ts";
+import { getImageUrl } from "@/utils/imageHelper";
 
 // 摄影师数据
 export interface PhotographerData {
@@ -949,10 +949,10 @@ export const getRecommendedEquipment = (limit: number = 4): EquipmentData[] => {
 
 // 轮播图片
 export const slideImages = [
-  "/images/主页横图/微信图片_20240617163026.jpg",
-  "/images/主页横图/微信图片_20240617165015-已增强-SR.jpg",
-  "/images/主页横图/微信图片_20240617165121-已增强-SR.jpg",
-  "/images/主页横图/微信图片_20240617165126-已增强-SR.jpg"
+  getImageUrl("/images/主页横图/微信图片_20240617163026.jpg"),
+  getImageUrl("/images/主页横图/微信图片_20240617165015-已增强-SR.jpg"),
+  getImageUrl("/images/主页横图/微信图片_20240617165121-已增强-SR.jpg"),
+  getImageUrl("/images/主页横图/微信图片_20240617165126-已增强-SR.jpg")
 ];
 
 // 分类数据

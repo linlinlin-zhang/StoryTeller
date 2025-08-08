@@ -162,10 +162,3 @@ export const imageUrlMapping: Record<string, string> = {
   "/images/摄影师/长雨林/记录/LT-NORITSU44000.jpg": "https://photo20250802.oss-cn-shenzhen.aliyuncs.com/images/%E6%91%84%E5%BD%B1%E5%B8%88/%E9%95%BF%E9%9B%A8%E6%9E%97/%E8%AE%B0%E5%BD%95/1754546271005_x9sumucvdir.jpg",
   "/images/摄影师/长雨林/记录/微信图片_20240802205538.jpg": "https://photo20250802.oss-cn-shenzhen.aliyuncs.com/images/%E6%91%84%E5%BD%B1%E5%B8%88/%E9%95%BF%E9%9B%A8%E6%9E%97/%E8%AE%B0%E5%BD%95/1754546271001_lvunvlvwnr.jpg"
 };
-
-// 获取图片URL的工具函数
-export function getImageUrl(localPath: string): string {
-  return imageUrlMapping[localPath] || localPath;
-}
-
-export default imageUrlMapping;

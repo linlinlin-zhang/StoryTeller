@@ -6,6 +6,7 @@ import PhotoCard from "@/components/PhotoCard";
 import { getPhotoById, getPhotosByPhotographer } from "@/data/mockData";
 import { Heart, Eye, Share2, Download, Camera, Calendar, User, MessageCircle, ThumbsUp } from "lucide-react";
 import { toast } from "sonner";
+import { getImageUrl } from "@/utils/imageHelper";
 
 interface Comment {
   id: string;
@@ -28,7 +29,7 @@ export default function PhotoDetail() {
       id: "1",
       user: {
         name: "张三",
-        avatar: "/images/微信图片_20240723091716.png"
+        avatar: getImageUrl("/images/微信图片_20240723091716.png")
       },
       content: "构图很棒，光影处理得很好！",
       date: "2024.8.15",
@@ -38,7 +39,7 @@ export default function PhotoDetail() {
       id: "2",
       user: {
         name: "李四",
-        avatar: "/images/微信图片_20240724151549.jpg"
+        avatar: getImageUrl("/images/微信图片_20240724151549.jpg")
       },
       content: "这个角度很独特，学习了！",
       date: "2024.8.14",
@@ -93,7 +94,7 @@ export default function PhotoDetail() {
       id: Date.now().toString(),
       user: {
         name: "当前用户",
-        avatar: "/images/微信图片_20240723091716.png"
+        avatar: getImageUrl("/images/微信图片_20240723091716.png")
       },
       content: newComment,
       date: new Date().toLocaleDateString('zh-CN'),

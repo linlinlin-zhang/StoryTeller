@@ -12,6 +12,7 @@ import AdminLogin from "@/pages/AdminLogin";
 import Upload from "@/pages/Upload";
 import Profile from "@/pages/Profile";
 
+
 import Following from "@/pages/Following";
 import Location from "@/pages/Location";
 import { Toaster } from "sonner";
@@ -41,6 +42,7 @@ export default function App() {
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/upload" element={<Upload />} />
           <Route path="/profile" element={<Profile />} />
+
         </Routes>
         <Toaster position="bottom-right" />
       </div>

@@ -3,7 +3,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { MapPin, Camera, Clock, Star, ChevronRight } from "lucide-react";
 import { Link } from "react-router-dom";
-import { getImageUrl } from '../utils/imageUtils.ts';
+import { getImageUrl } from '../utils/imageHelper';
 
 interface LocationDetail {
   id: string;

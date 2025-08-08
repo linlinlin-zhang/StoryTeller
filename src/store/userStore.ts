@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { getImageUrl } from '../utils/imageUtils.ts';
+import { getImageUrl } from '../utils/imageHelper';
 
 export interface User {
   id: string;
@@ -79,7 +79,7 @@ export const mockUsers: Record<string, User> = {
     id: '2',
     name: '管理员',
     email: 'admin@example.com',
-    avatar: '/images/微信图片_20240724151549.jpg',
+    avatar: getImageUrl('/images/微信图片_20240724151549.jpg'),
     bio: '平台管理员',
     location: '上海',
     joinDate: '2024.01.01',
@@ -95,7 +95,7 @@ export const mockUsers: Record<string, User> = {
     id: '3',
     name: '专业摄影师',
     email: 'photographer@example.com',
-    avatar: '/images/微信图片_20240723091716.png',
+    avatar: getImageUrl('/images/微信图片_20240723091716.png'),
     bio: '专业摄影师，擅长风光和商业摄影。',
     location: '深圳',
     joinDate: '2024.02.01',
@@ -142,7 +142,7 @@ export const simulateRegister = async (userData: {
     id: Date.now().toString(),
     name: userData.name,
     email: userData.email,
-    avatar: '/images/微信图片_20240723091716.png',
+    avatar: getImageUrl('/images/微信图片_20240723091716.png'),
     bio: '',
     location: '',
     joinDate: new Date().toLocaleDateString('zh-CN').replace(/\//g, '.'),

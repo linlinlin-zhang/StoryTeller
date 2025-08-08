@@ -2,11 +2,10 @@ import { imageUrlMapping } from './imageMapping';
 
 /**
  * 获取图片的OSS URL
- * @param localPath 本地图片路径，例如 '/images/头像/长雨林.png'
- * @returns OSS图片URL或原路径（如果未找到映射）
+ * @param localPath 本地图片路径
+ * @returns OSS图片URL或原路径
  */
 export function getImageUrl(localPath: string): string {
-  // 如果已经是完整的URL，直接返回
   if (localPath.startsWith('http://') || localPath.startsWith('https://')) {
     return localPath;
   }
@@ -21,7 +20,7 @@ export function getImageUrl(localPath: string): string {
     return ossUrl;
   }
   
-  // 如果没有找到映射，返回原路径（可能是新上传的图片）
+  // 如果没有找到映射，返回原路径
   console.warn(`图片URL映射未找到: ${normalizedPath}`);
   return localPath;
 }
@@ -86,11 +85,3 @@ export function getMigrationStats() {
     categories
   };
 }
-
-export default {
-  getImageUrl,
-  getImageUrls,
-  isImageMigrated,
-  getMigratedImagePaths,
-  getMigrationStats
-};
