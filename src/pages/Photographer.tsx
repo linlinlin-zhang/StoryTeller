@@ -3,7 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import PhotoCard from "@/components/PhotoCard";
-import { getPhotographerById, getPhotosByPhotographer } from "@/data/mockData";
+import { getPhotographerById, getEnhancedPhotosByPhotographer } from "@/data/mockData";
 import { MapPin, Calendar, Camera, Heart, Eye, Award, Users } from "lucide-react";
 import { toast } from "sonner";
 
@@ -25,7 +25,7 @@ export default function Photographer() {
     const loadPhotographerPhotos = async () => {
       if (photographer) {
         try {
-          let photographerPhotos = await getPhotosByPhotographer(photographer.id);
+          let photographerPhotos = await getEnhancedPhotosByPhotographer(photographer.id);
           
           // 排序
           if (sortBy === "likes") {

@@ -202,6 +202,101 @@ export class OSSService {
       return false;
     }
   }
+
+  /**
+   * 列出OSS中的所有文件
+   * @param prefix 文件前缀（可选）
+   * @param maxKeys 最大返回数量（默认1000）
+   * @returns 文件列表
+   */
+  async listFiles(prefix: string = '', maxKeys: number = 1000): Promise<{
+    success: boolean;
+    files?: string[];
+    error?: string;
+  }> {
+    if (!this.checkOSSAvailable()) {
+      return {
+        success: false,
+        error: 'OSS service not available'
+      };
+    }
+
+    try {
+      const client = this.getClient()!;
+      const result = await client.list({
+        prefix,
+        'max-keys': maxKeys
+      });
+
+      const files = result.objects ? result.objects.map(obj => obj.name) : [];
+      
+      return {
+        success: true,
+        files
+      };
+    } catch (error) {
+      console.error('OSS list files error:', error);
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : 'List files failed'
+      };
+    }
+  }
+
+  /**
+   * 递归列出所有文件（处理分页）
+   * @param prefix 文件前缀
+   * @returns 所有文件列表
+   */
+  async listAllFiles(prefix: string = ''): Promise<{
+    success: boolean;
+    files?: string[];
+    error?: string;
+  }> {
+    if (!this.checkOSSAvailable()) {
+      return {
+        success: false,
+        error: 'OSS service not available'
+      };
+    }
+
+    try {
+      const client = this.getClient()!;
+      const allFiles: string[] = [];
+      let continuationToken: string | undefined;
+
+      do {
+        const listParams: any = {
+          prefix,
+          'max-keys': 1000
+        };
+
+        if (continuationToken) {
+          listParams.marker = continuationToken;
+        }
+
+        const result = await client.list(listParams);
+        
+        if (result.objects) {
+          const files = result.objects.map(obj => obj.name);
+          allFiles.push(...files);
+        }
+
+        continuationToken = result.nextMarker;
+      } while (continuationToken);
+
+      return {
+        success: true,
+        files: allFiles
+      };
+    } catch (error) {
+      console.error('OSS list all files error:', error);
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : 'List all files failed'
+      };
+    }
+  }
 }
 
 export const ossService = new OSSService();

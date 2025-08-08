@@ -49,7 +49,7 @@ const followedPhotographers: FollowedPhotographer[] = [
       {
         id: "1",
         title: "永恒与一日",
-        image: getImageUrl("/images/摄影师/长雨林/自然/000000490034-已增强-SR.jpg"),
+        image: getImageUrl("/images/摄影师/长雨林/城市/000000490030-已增强-SR.jpg"),
         likes: 234,
         views: 1567
       }
@@ -205,7 +205,7 @@ const recentPhotos: FollowedPhoto[] = [
   {
     id: "2",
     title: "城市夜景",
-    image: getImageUrl("/images/摄影师/长雨林/未分类/000000490008-已增强-SR.jpg"),
+    image: getImageUrl("/images/摄影师/长雨林/城市/000000490032-已增强-SR.jpg"),
     photographer: "LTDSA",
     photographerId: "zym",
     likes: 134,
