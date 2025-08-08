@@ -11,5 +11,8 @@
 - [x] 65: 运行npm run check检查代码质量 (priority: High)
 - [x] 66: 解决getImageUrl函数导出问题，创建新的imageHelper.ts文件 (priority: High)
 - [x] 67: 重新添加图片映射功能，确保所有图片正确映射到OSS URL (priority: High)
+- [x] 68: 修复photoImporter.ts中第252行的图片路径，使用getImageUrl函数转换 (priority: High)
+- [x] 69: 修复userStore.ts中的头像路径，确保通过getImageUrl函数转换 (priority: High)
+- [x] 70: 检查其他页面图片显示是否正常 (priority: High)
 - [x] 58: 优化Vite构建配置以减少bundle大小警告 (priority: Medium)
 - [ ] 53: 测试JWT功能和配置 (priority: High)

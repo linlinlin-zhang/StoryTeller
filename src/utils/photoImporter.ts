@@ -1,5 +1,6 @@
 import { PhotoData } from '@/components/PhotoCard';
 import { PhotographerData } from '@/data/mockData';
+import { getImageUrl } from './imageHelper';
 
 // 照片分类映射
 const CATEGORY_MAP: Record<string, string> = {
@@ -254,7 +255,7 @@ export class PhotoImporter {
     return {
       id: (this.photoIdCounter++).toString(),
       title: generateTitle(filename, category, photographerName),
-      image: imagePath,
+      image: getImageUrl(imagePath),
       photographer: photographer,
       camera: getRandomCamera(),
       date: getRandomDate(),
