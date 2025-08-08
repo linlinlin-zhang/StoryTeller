@@ -3,6 +3,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Heart, Eye, Camera, MapPin, Calendar, Users, Loader2 } from "lucide-react";
 import { Link } from "react-router-dom";
+import { getImageUrl } from "@/utils/imageHelper";
 
 interface FollowedPhotographer {
   id: string;
@@ -38,7 +39,7 @@ const followedPhotographers: FollowedPhotographer[] = [
   {
     id: "zsl",
     name: "长雨林",
-    avatar: "/images/头像/长雨林.png",
+    avatar: getImageUrl("/images/头像/长雨林.png"),
     location: "广州",
     specialty: "风光摄影",
     followers: 2340,
@@ -48,7 +49,7 @@ const followedPhotographers: FollowedPhotographer[] = [
       {
         id: "1",
         title: "永恒与一日",
-        image: "/images/摄影师/长雨林/自然/000000490034-已增强-SR.jpg",
+        image: getImageUrl("/images/摄影师/长雨林/自然/000000490034-已增强-SR.jpg"),
         likes: 234,
         views: 1567
       }
@@ -57,7 +58,7 @@ const followedPhotographers: FollowedPhotographer[] = [
   {
     id: "zym",
     name: "LTDSA",
-    avatar: "/images/头像/LTDSA.jpg",
+    avatar: getImageUrl("/images/头像/LTDSA.jpg"),
     location: "深圳",
     specialty: "航拍摄影",
     followers: 1890,
@@ -67,7 +68,7 @@ const followedPhotographers: FollowedPhotographer[] = [
       {
         id: "4",
         title: "山的尽头是海",
-        image: "/images/摄影师/LTDSA/自然/微信图片_20240802132116.jpg",
+        image: getImageUrl("/images/摄影师/LTDSA/自然/微信图片_20240802132116.jpg"),
         likes: 345,
         views: 2134
       }
@@ -76,7 +77,7 @@ const followedPhotographers: FollowedPhotographer[] = [
   {
     id: "cfy",
     name: "Flyverse",
-    avatar: "/images/头像/Flyverse.jpg",
+    avatar: getImageUrl("/images/头像/Flyverse.jpg"),
     location: "北京",
     specialty: "人像摄影",
     followers: 3120,
@@ -86,7 +87,7 @@ const followedPhotographers: FollowedPhotographer[] = [
       {
         id: "7",
         title: "我怀念的",
-        image: "/images/摄影师/Flyverse/自然/微信图片_20240802134101.jpg",
+        image: getImageUrl("/images/摄影师/Flyverse/自然/微信图片_20240802134101.jpg"),
         likes: 412,
         views: 2890
       }
@@ -95,7 +96,7 @@ const followedPhotographers: FollowedPhotographer[] = [
   {
     id: "lqr",
     name: "Tp",
-    avatar: "/images/头像/Tp.jpg",
+    avatar: getImageUrl("/images/头像/Tp.jpg"),
     location: "上海",
     specialty: "建筑摄影",
     followers: 1456,
@@ -105,7 +106,7 @@ const followedPhotographers: FollowedPhotographer[] = [
       {
         id: "10",
         title: "上海印象",
-        image: "/images/摄影师/TP/建筑/微信图片_20240802183337.jpg",
+        image: getImageUrl("/images/摄影师/TP/建筑/微信图片_20240802183337.jpg"),
         likes: 178,
         views: 1023
       }
@@ -114,7 +115,7 @@ const followedPhotographers: FollowedPhotographer[] = [
   {
     id: "dq",
     name: "戴小岐",
-    avatar: "/images/头像/戴小岐.jpg",
+    avatar: getImageUrl("/images/头像/戴小岐.jpg"),
     location: "厦门",
     specialty: "风光摄影",
     followers: 2890,
@@ -124,7 +125,7 @@ const followedPhotographers: FollowedPhotographer[] = [
       {
         id: "13",
         title: "厦门日出",
-        image: "/images/摄影师/戴小岐/自然/微信图片_20240802121525.jpg",
+        image: getImageUrl("/images/摄影师/戴小岐/自然/微信图片_20240802121525.jpg"),
         likes: 289,
         views: 1678
       }
@@ -133,7 +134,7 @@ const followedPhotographers: FollowedPhotographer[] = [
   {
     id: "photographer6",
     name: "陈摄影",
-    avatar: "/images/摄影师/长雨林/记录/微信图片_20240802205538.jpg",
+    avatar: getImageUrl("/images/摄影师/长雨林/记录/微信图片_20240802205538.jpg"),
     location: "广州",
     specialty: "夜景摄影",
     followers: 1567,
@@ -143,7 +144,7 @@ const followedPhotographers: FollowedPhotographer[] = [
       {
         id: "16",
         title: "广州夜色",
-        image: "/images/摄影师/长雨林/记录/微信图片_20240802205538.jpg",
+        image: getImageUrl("/images/摄影师/长雨林/记录/微信图片_20240802205538.jpg"),
         likes: 198,
         views: 1234
       }
@@ -152,7 +153,7 @@ const followedPhotographers: FollowedPhotographer[] = [
   {
     id: "photographer7",
     name: "李风光",
-    avatar: "/images/摄影师/长雨林/建筑/4733 (12).jpg",
+    avatar: getImageUrl("/images/摄影师/长雨林/建筑/4733 (12).jpg"),
     location: "佛山",
     specialty: "古建筑摄影",
     followers: 1234,
@@ -162,7 +163,7 @@ const followedPhotographers: FollowedPhotographer[] = [
       {
         id: "17",
         title: "古韵佛山",
-        image: "/images/摄影师/长雨林/建筑/4733 (12).jpg",
+        image: getImageUrl("/images/摄影师/长雨林/建筑/4733 (12).jpg"),
         likes: 167,
         views: 987
       }
@@ -171,7 +172,7 @@ const followedPhotographers: FollowedPhotographer[] = [
   {
     id: "photographer8",
     name: "王都市",
-    avatar: "/images/摄影师/长雨林/城市/DSC02247.jpg",
+    avatar: getImageUrl("/images/摄影师/长雨林/城市/DSC02247.jpg"),
     location: "深圳",
     specialty: "都市摄影",
     followers: 2100,
@@ -181,7 +182,7 @@ const followedPhotographers: FollowedPhotographer[] = [
       {
         id: "18",
         title: "深圳天际线",
-        image: "/images/摄影师/长雨林/城市/DSC02247.jpg",
+        image: getImageUrl("/images/摄影师/长雨林/城市/DSC02247.jpg"),
         likes: 256,
         views: 1456
       }
@@ -193,7 +194,7 @@ const recentPhotos: FollowedPhoto[] = [
   {
     id: "1",
     title: "晨光初现",
-    image: "/images/摄影师/长雨林/建筑/000000490004-已增强-SR.jpg",
+    image: getImageUrl("/images/摄影师/长雨林/建筑/000000490004-已增强-SR.jpg"),
     photographer: "长雨林",
     photographerId: "zsl",
     likes: 89,
@@ -204,7 +205,7 @@ const recentPhotos: FollowedPhoto[] = [
   {
     id: "2",
     title: "城市夜景",
-    image: "/images/摄影师/长雨林/未分类/000000490008-已增强-SR.jpg",
+    image: getImageUrl("/images/摄影师/长雨林/未分类/000000490008-已增强-SR.jpg"),
     photographer: "LTDSA",
     photographerId: "zym",
     likes: 134,
@@ -215,7 +216,7 @@ const recentPhotos: FollowedPhoto[] = [
   {
     id: "3",
     title: "建筑之美",
-    image: "/images/摄影师/长雨林/记录/000000490010-已增强-SR.jpg",
+    image: getImageUrl("/images/摄影师/长雨林/记录/000000490010-已增强-SR.jpg"),
     photographer: "Flyverse",
     photographerId: "cfy",
     likes: 167,
@@ -226,7 +227,7 @@ const recentPhotos: FollowedPhoto[] = [
   {
     id: "4",
     title: "光影交错",
-    image: "/images/摄影师/长雨林/城市/000000490030-已增强-SR.jpg",
+    image: getImageUrl("/images/摄影师/长雨林/城市/000000490030-已增强-SR.jpg"),
     photographer: "长雨林",
     photographerId: "zsl",
     likes: 98,
@@ -237,7 +238,7 @@ const recentPhotos: FollowedPhoto[] = [
   {
     id: "5",
     title: "自然之韵",
-    image: "/images/摄影师/长雨林/城市/000000490032-已增强-SR.jpg",
+    image: getImageUrl("/images/摄影师/长雨林/城市/000000490032-已增强-SR.jpg"),
     photographer: "LTDSA",
     photographerId: "zym",
     likes: 156,
@@ -248,7 +249,7 @@ const recentPhotos: FollowedPhoto[] = [
   {
     id: "6",
     title: "都市印象",
-    image: "/images/摄影师/长雨林/自然/000000490034-已增强-SR.jpg",
+    image: getImageUrl("/images/摄影师/长雨林/自然/000000490034-已增强-SR.jpg"),
     photographer: "Flyverse",
     photographerId: "cfy",
     likes: 203,
@@ -259,7 +260,7 @@ const recentPhotos: FollowedPhoto[] = [
   {
     id: "7",
     title: "海边日落",
-    image: "/images/微信图片_20240802132116.jpg",
+    image: getImageUrl("/images/微信图片_20240802132116.jpg"),
     photographer: "Tp",
     photographerId: "lqr",
     likes: 178,
@@ -270,7 +271,7 @@ const recentPhotos: FollowedPhoto[] = [
   {
     id: "8",
     title: "古建筑韵味",
-    image: "/images/4733 (12).jpg",
+    image: getImageUrl("/images/4733 (12).jpg"),
     photographer: "戴小岐",
     photographerId: "dq",
     likes: 145,
@@ -281,7 +282,7 @@ const recentPhotos: FollowedPhoto[] = [
   {
     id: "9",
     title: "夜色璀璨",
-    image: "/images/微信图片_20240802205538.jpg",
+    image: getImageUrl("/images/微信图片_20240802205538.jpg"),
     photographer: "陈摄影",
     photographerId: "photographer6",
     likes: 234,
@@ -292,7 +293,7 @@ const recentPhotos: FollowedPhoto[] = [
   {
     id: "10",
     title: "山水如画",
-    image: "/images/微信图片_20240802134101.jpg",
+    image: getImageUrl("/images/微信图片_20240802134101.jpg"),
     photographer: "李风光",
     photographerId: "photographer7",
     likes: 189,
@@ -303,7 +304,7 @@ const recentPhotos: FollowedPhoto[] = [
   {
     id: "11",
     title: "都市天际线",
-    image: "/images/DSC02247.jpg",
+    image: getImageUrl("/images/DSC02247.jpg"),
     photographer: "王都市",
     photographerId: "photographer8",
     likes: 267,
@@ -314,7 +315,7 @@ const recentPhotos: FollowedPhoto[] = [
   {
     id: "12",
     title: "晨雾缭绕",
-    image: "/images/000003920036-已增强-SR.jpg",
+    image: getImageUrl("/images/000003920036-已增强-SR.jpg"),
     photographer: "长雨林",
     photographerId: "zsl",
     likes: 198,

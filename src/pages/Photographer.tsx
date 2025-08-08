@@ -22,20 +22,29 @@ export default function Photographer() {
   }, [id]);
 
   useEffect(() => {
-    if (photographer) {
-      let photographerPhotos = getPhotosByPhotographer(photographer.id);
-      
-      // 排序
-      if (sortBy === "likes") {
-        photographerPhotos = photographerPhotos.sort((a, b) => b.likes - a.likes);
-      } else if (sortBy === "views") {
-        photographerPhotos = photographerPhotos.sort((a, b) => b.views - a.views);
-      } else {
-        photographerPhotos = photographerPhotos.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+    const loadPhotographerPhotos = async () => {
+      if (photographer) {
+        try {
+          let photographerPhotos = await getPhotosByPhotographer(photographer.id);
+          
+          // 排序
+          if (sortBy === "likes") {
+            photographerPhotos = photographerPhotos.sort((a, b) => b.likes - a.likes);
+          } else if (sortBy === "views") {
+            photographerPhotos = photographerPhotos.sort((a, b) => b.views - a.views);
+          } else {
+            photographerPhotos = photographerPhotos.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+          }
+          
+          setPhotos(photographerPhotos);
+        } catch (error) {
+          console.error('获取摄影师照片失败:', error);
+          setPhotos([]);
+        }
       }
-      
-      setPhotos(photographerPhotos);
-    }
+    };
+    
+    loadPhotographerPhotos();
   }, [photographer, sortBy]);
 
   if (!photographer) {

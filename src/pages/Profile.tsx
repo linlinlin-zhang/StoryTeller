@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import PhotoCard from "@/components/PhotoCard";
 import { getPhotosByPhotographer } from "@/data/mockData";
 import { getImageUrl } from "@/utils/imageHelper";
+import type { PhotoData } from "@/components/PhotoCard";
 import { 
   User, 
   Camera, 
@@ -27,6 +28,8 @@ import { toast } from "sonner";
 export default function Profile() {
   const [activeTab, setActiveTab] = useState("overview");
   const [isEditing, setIsEditing] = useState(false);
+  const [userPhotos, setUserPhotos] = useState<PhotoData[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [userInfo, setUserInfo] = useState({
     name: "长雨林",
     email: "zhangyulin@example.com",
@@ -39,8 +42,24 @@ export default function Profile() {
   });
   const [editForm, setEditForm] = useState(userInfo);
 
-  // 模拟用户作品数据 - 使用当前登录用户对应的摄影师ID
-  const userPhotos = getPhotosByPhotographer("zsl"); // 假设当前用户是长雨林
+  // 加载用户作品数据
+  useEffect(() => {
+    const loadUserPhotos = async () => {
+      try {
+        setIsLoading(true);
+        const photos = await getPhotosByPhotographer("zsl"); // 假设当前用户是长雨林
+        setUserPhotos(photos);
+      } catch (error) {
+        console.error('Failed to load user photos:', error);
+        toast.error('加载作品失败');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadUserPhotos();
+  }, []);
+
   const totalLikes = userPhotos.reduce((sum, photo) => sum + photo.likes, 0);
   const totalViews = userPhotos.reduce((sum, photo) => sum + photo.views, 0);
   const followers = 1234;
@@ -187,20 +206,30 @@ export default function Profile() {
                 
                 <div>
                   <h3 className="text-lg font-semibold mb-4">最新作品</h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {userPhotos.slice(0, 6).map(photo => (
-                      <PhotoCard key={photo.id} photo={photo} />
-                    ))}
-                  </div>
-                  {userPhotos.length > 6 && (
-                    <div className="text-center mt-6">
-                      <button
-                        onClick={() => setActiveTab("photos")}
-                        className="text-blue-600 hover:text-blue-500 font-medium"
-                      >
-                        查看全部作品 →
-                      </button>
+                  {isLoading ? (
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                      {[...Array(6)].map((_, index) => (
+                        <div key={index} className="bg-gray-200 animate-pulse rounded-lg aspect-square"></div>
+                      ))}
                     </div>
+                  ) : (
+                    <>
+                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {userPhotos.slice(0, 6).map(photo => (
+                          <PhotoCard key={photo.id} photo={photo} />
+                        ))}
+                      </div>
+                      {userPhotos.length > 6 && (
+                        <div className="text-center mt-6">
+                          <button
+                            onClick={() => setActiveTab("photos")}
+                            className="text-blue-600 hover:text-blue-500 font-medium"
+                          >
+                            查看全部作品 →
+                          </button>
+                        </div>
+                      )}
+                    </>
                   )}
                 </div>
                 
@@ -231,7 +260,7 @@ export default function Profile() {
             {activeTab === "photos" && (
               <div>
                 <div className="flex justify-between items-center mb-6">
-                  <h2 className="text-xl font-semibold">我的作品 ({userPhotos.length})</h2>
+                  <h2 className="text-xl font-semibold">我的作品 ({isLoading ? '...' : userPhotos.length})</h2>
                   <Link
                     to="/upload"
                     className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
@@ -241,34 +270,44 @@ export default function Profile() {
                   </Link>
                 </div>
                 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {userPhotos.map(photo => (
-                    <div key={photo.id} className="relative group">
-                      <PhotoCard photo={photo} />
-                      <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                        <button
-                          onClick={() => handleDeletePhoto(photo.id)}
-                          className="p-2 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors"
-                        >
-                          <Trash2 size={14} />
-                        </button>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-                
-                {userPhotos.length === 0 && (
-                  <div className="text-center py-12">
-                    <Camera size={48} className="mx-auto text-gray-400 mb-4" />
-                    <p className="text-gray-500 mb-4">还没有上传作品</p>
-                    <Link
-                      to="/upload"
-                      className="inline-flex items-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-                    >
-                      <Upload size={16} className="mr-2" />
-                      上传第一张作品
-                    </Link>
+                {isLoading ? (
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {[...Array(9)].map((_, index) => (
+                      <div key={index} className="bg-gray-200 animate-pulse rounded-lg aspect-square"></div>
+                    ))}
                   </div>
+                ) : (
+                  <>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                      {userPhotos.map(photo => (
+                        <div key={photo.id} className="relative group">
+                          <PhotoCard photo={photo} />
+                          <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                            <button
+                              onClick={() => handleDeletePhoto(photo.id)}
+                              className="p-2 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors"
+                            >
+                              <Trash2 size={14} />
+                            </button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                    
+                    {userPhotos.length === 0 && (
+                      <div className="text-center py-12">
+                        <Camera size={48} className="mx-auto text-gray-400 mb-4" />
+                        <p className="text-gray-500 mb-4">还没有上传作品</p>
+                        <Link
+                          to="/upload"
+                          className="inline-flex items-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                        >
+                          <Upload size={16} className="mr-2" />
+                          上传第一张作品
+                        </Link>
+                      </div>
+                    )}
+                  </>
                 )}
               </div>
             )}

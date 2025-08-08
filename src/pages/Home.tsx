@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Slideshow from "@/components/Slideshow";
@@ -13,44 +13,85 @@ import {
 import { PhotoData } from "@/components/PhotoCard";
 import { ChevronRight, Loader2 } from "lucide-react";
 
+// 缓存机制
+const categoryCache = new Map<string, PhotoData[][]>();
+const CACHE_EXPIRY = 5 * 60 * 1000; // 5分钟缓存
+const cacheTimestamps = new Map<string, number>();
+
 export default function Home() {
   const [categoryPages, setCategoryPages] = useState<{[key: string]: number}>(
     categories.reduce((acc, category) => ({ ...acc, [category.key]: 0 }), {})
   );
   const [categoryPhotos, setCategoryPhotos] = useState<{[key: string]: PhotoData[][]}>({});
-
-  const [isLoading, setIsLoading] = useState(true);
+  const [loadingCategories, setLoadingCategories] = useState<Set<string>>(new Set());
+  const [isInitialLoading, setIsInitialLoading] = useState(true);
   
-  // 加载分类照片数据
+  // 检查缓存是否有效
+  const isCacheValid = useCallback((categoryKey: string): boolean => {
+    const timestamp = cacheTimestamps.get(categoryKey);
+    return timestamp ? (Date.now() - timestamp) < CACHE_EXPIRY : false;
+  }, []);
+  
+  // 懒加载单个分类数据
+  const loadCategoryData = useCallback(async (categoryKey: string) => {
+    // 检查缓存
+    if (isCacheValid(categoryKey) && categoryCache.has(categoryKey)) {
+      const cachedData = categoryCache.get(categoryKey)!;
+      setCategoryPhotos(prev => ({ ...prev, [categoryKey]: cachedData }));
+      return;
+    }
+    
+    setLoadingCategories(prev => new Set(prev).add(categoryKey));
+    
+    try {
+      const featuredData = await getHomeFeaturedPhotos(categoryKey);
+      const pages = featuredData?.pages || [];
+      
+      // 更新缓存
+      categoryCache.set(categoryKey, pages);
+      cacheTimestamps.set(categoryKey, Date.now());
+      
+      setCategoryPhotos(prev => ({ ...prev, [categoryKey]: pages }));
+      
+      console.log(`📸 分类 ${categoryKey} 数据加载完成:`, {
+        页数: pages.length,
+        总照片数: pages.reduce((sum, page) => sum + page.length, 0)
+      });
+    } catch (error) {
+      console.error(`分类 ${categoryKey} 数据加载失败:`, error);
+    } finally {
+      setLoadingCategories(prev => {
+        const newSet = new Set(prev);
+        newSet.delete(categoryKey);
+        return newSet;
+      });
+    }
+  }, [isCacheValid]);
+  
+  // 初始加载前两个分类，其他分类懒加载
   useEffect(() => {
-    const loadCategoryData = async () => {
-      try {
-        setIsLoading(true);
-        const categoryData = await Promise.all(
-          categories.map(category => getHomeFeaturedPhotos(category.key))
-        );
-        
-        const photosMap: {[key: string]: PhotoData[][]} = {};
-        categories.forEach((category, index) => {
-          const featuredData = categoryData[index];
-          photosMap[category.key] = featuredData?.pages || [];
+    const loadInitialData = async () => {
+      setIsInitialLoading(true);
+      
+      // 优先加载前两个分类
+      const priorityCategories = categories.slice(0, 2);
+      await Promise.all(
+        priorityCategories.map(category => loadCategoryData(category.key))
+      );
+      
+      setIsInitialLoading(false);
+      
+      // 延迟加载其他分类
+      setTimeout(() => {
+        const remainingCategories = categories.slice(2);
+        remainingCategories.forEach(category => {
+          setTimeout(() => loadCategoryData(category.key), Math.random() * 1000);
         });
-        setCategoryPhotos(photosMap);
-        
-        console.log('🏠 Home页面数据加载完成:', {
-          各分类页数: Object.fromEntries(
-            Object.entries(photosMap).map(([key, pages]) => [key, pages.length])
-          )
-        });
-      } catch (error) {
-        console.error('Home页面数据加载失败:', error);
-      } finally {
-        setIsLoading(false);
-      }
+      }, 500);
     };
     
-    loadCategoryData();
-  }, []);
+    loadInitialData();
+  }, [loadCategoryData]);
   return (
     <div className="min-h-screen bg-white">
       <Header />
@@ -102,7 +143,7 @@ export default function Home() {
         
         {/* 分类作品展示 */}
         <div className="w-4/5 mx-auto bg-gray-50 py-8">
-          {isLoading ? (
+          {isInitialLoading ? (
             <div className="text-center py-12">
               <Loader2 className="animate-spin mx-auto mb-4" size={32} />
               <h3 className="text-lg font-medium text-gray-600 mb-2">正在加载精选作品...</h3>
@@ -114,6 +155,7 @@ export default function Home() {
               const currentPage = categoryPages[category.key] || 0;
               const totalPages = 4; // 固定4页
               const displayPhotos = categoryPages_data[currentPage] || [];
+              const isLoading = loadingCategories.has(category.key);
 
             
             const handlePageChange = (pageIndex: number) => {
@@ -123,7 +165,29 @@ export default function Home() {
               }));
             };
             
-            // 如果该分类没有照片，跳过显示
+            // 如果该分类正在加载或没有数据，显示加载状态
+              if (isLoading) {
+                return (
+                  <div key={category.id} className="mb-12 last:mb-0">
+                    <div className="flex justify-between items-center mb-6">
+                      <h2 className="text-xl font-bold">{category.name}</h2>
+                      <Link 
+                        to={`/gallery?category=${category.key}`}
+                        className="text-blue-600 hover:text-blue-800 flex items-center transition-colors"
+                      >
+                        更多
+                        <ChevronRight size={16} className="ml-1" />
+                      </Link>
+                    </div>
+                    <div className="text-center py-8">
+                      <Loader2 className="animate-spin mx-auto mb-2" size={24} />
+                      <p className="text-gray-500">正在加载 {category.name} 作品...</p>
+                    </div>
+                  </div>
+                );
+              }
+              
+              // 如果该分类没有照片，跳过显示
               if (categoryPages_data.length === 0) {
                 return null;
               }

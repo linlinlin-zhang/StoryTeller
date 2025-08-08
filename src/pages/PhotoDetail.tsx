@@ -21,7 +21,8 @@ interface Comment {
 
 export default function PhotoDetail() {
   const { id } = useParams();
-  const [photo, setPhoto] = useState(getPhotoById(id || ""));
+  const [photo, setPhoto] = useState<any>(null);
+  const [isLoading, setIsLoading] = useState(true);
   const [isLiked, setIsLiked] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [comments, setComments] = useState<Comment[]>([
@@ -29,7 +30,7 @@ export default function PhotoDetail() {
       id: "1",
       user: {
         name: "张三",
-        avatar: getImageUrl("/images/微信图片_20240723091716.png")
+        avatar: getImageUrl("/images/头像/LTDSA.jpg")
       },
       content: "构图很棒，光影处理得很好！",
       date: "2024.8.15",
@@ -39,7 +40,7 @@ export default function PhotoDetail() {
       id: "2",
       user: {
         name: "李四",
-        avatar: getImageUrl("/images/微信图片_20240724151549.jpg")
+        avatar: getImageUrl("/images/头像/Flyverse.jpg")
       },
       content: "这个角度很独特，学习了！",
       date: "2024.8.14",
@@ -50,13 +51,46 @@ export default function PhotoDetail() {
   const [relatedPhotos, setRelatedPhotos] = useState<any[]>([]);
 
   useEffect(() => {
-    if (photo) {
-      const related = getPhotosByPhotographer(photo.photographer.id)
-        .filter(p => p.id !== photo.id)
-        .slice(0, 4);
-      setRelatedPhotos(related);
-    }
-  }, [photo]);
+    const loadPhoto = async () => {
+      if (id) {
+        setIsLoading(true);
+        try {
+          const photoData = await getPhotoById(id);
+          setPhoto(photoData);
+          
+          if (photoData) {
+            const related = await getPhotosByPhotographer(photoData.photographer.id);
+            const filteredRelated = related
+              .filter(p => p.id !== photoData.id)
+              .slice(0, 4);
+            setRelatedPhotos(filteredRelated);
+          }
+        } catch (error) {
+          console.error('加载照片失败:', error);
+          setPhoto(null);
+        } finally {
+          setIsLoading(false);
+        }
+      }
+    };
+    
+    loadPhoto();
+  }, [id]);
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-white">
+        <Header />
+        <div className="container mx-auto px-4 py-8 text-center">
+          <div className="flex items-center justify-center">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+            <span className="ml-2 text-gray-600">加载中...</span>
+          </div>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
 
   if (!photo) {
     return (
@@ -94,7 +128,7 @@ export default function PhotoDetail() {
       id: Date.now().toString(),
       user: {
         name: "当前用户",
-        avatar: getImageUrl("/images/微信图片_20240723091716.png")
+        avatar: getImageUrl("/images/头像/Tp.jpg")
       },
       content: newComment,
       date: new Date().toLocaleDateString('zh-CN'),

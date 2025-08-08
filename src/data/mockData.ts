@@ -764,8 +764,21 @@ export const getPhotographerById = (id: string): PhotographerData | undefined =>
 };
 
 // 根据ID获取照片
-export const getPhotoById = (id: string): PhotoData | undefined => {
-  return photos.find(photo => photo.id === id);
+export const getPhotoById = async (id: string): Promise<PhotoData | undefined> => {
+  // 首先在原始photos数组中查找
+  const originalPhoto = photos.find(photo => photo.id === id);
+  if (originalPhoto) {
+    return originalPhoto;
+  }
+  
+  // 如果在原始数组中没找到，在导入的照片中查找
+  try {
+    const allPhotos = await getAllPhotos();
+    return allPhotos.find(photo => photo.id === id);
+  } catch (error) {
+    console.error('获取照片失败:', error);
+    return undefined;
+  }
 };
 
 // 根据ID获取地点
@@ -794,17 +807,20 @@ export const searchPhotos = (query: string): PhotoData[] => {
 };
 
 // 获取推荐照片
-export const getRecommendedPhotos = (currentPhotoId: string, limit: number = 6): PhotoData[] => {
-  const currentPhoto = getPhotoById(currentPhotoId);
+export const getRecommendedPhotos = async (currentPhotoId: string, limit: number = 6): Promise<PhotoData[]> => {
+  const currentPhoto = await getPhotoById(currentPhotoId);
   if (!currentPhoto) return [];
   
+  // 获取所有照片数据
+  const allPhotos = await getAllPhotos();
+  
   // 优先推荐同一摄影师的其他作品
-  const samePhotographerPhotos = photos.filter(photo => 
+  const samePhotographerPhotos = allPhotos.filter(photo => 
     photo.photographer.id === currentPhoto.photographer.id && photo.id !== currentPhotoId
   );
   
   // 如果同一摄影师的作品不够，再推荐同类别的其他作品
-  const sameCategoryPhotos = photos.filter(photo => 
+  const sameCategoryPhotos = allPhotos.filter(photo => 
     photo.category === currentPhoto.category && 
     photo.photographer.id !== currentPhoto.photographer.id
   );
@@ -962,12 +978,14 @@ export const categories = [
   { id: "architecture", name: "建筑", key: "建筑" },
   { id: "city", name: "城市", key: "城市" },
   { id: "record", name: "记录", key: "记录" },
+  { id: "macro", name: "微距", key: "微距" },
   { id: "uncategorized", name: "未分类", key: "未分类" }
 ];
 
 // 根据摄影师获取照片
-export const getPhotosByPhotographer = (photographerId: string): PhotoData[] => {
-  return photos.filter(photo => photo.photographer.id === photographerId);
+export const getPhotosByPhotographer = async (photographerId: string): Promise<PhotoData[]> => {
+  const allPhotos = await getAllPhotos();
+  return allPhotos.filter(photo => photo.photographer.id === photographerId);
 };
 
 // 初始化所有照片数据
